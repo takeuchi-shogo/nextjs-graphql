@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client'
 import { gql } from 'apollo-server-micro'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 import Navigation from '../components/navigation'
+import Todo from '../models/todos'
 import styles from '../styles/Home.module.css'
 
 type Props = {
@@ -33,7 +33,7 @@ const Home: NextPage<Props> = (props) => {
 	console.log(data)
 
 	if (loading) return <p>Now Loading .....</p>
-	if (error) return <p>error</p>
+	if (error) return <p className='font-bold text-3xl'>error</p>
 
 	return (
 		<div className={styles.container}>
@@ -44,11 +44,11 @@ const Home: NextPage<Props> = (props) => {
 			</Head>
 
 			<main className={styles.main}>
-				<h1 className={styles.title}>
+				<h1 className='text-3xl'>
 					Hello, GraphQL!!!
 				</h1>
 				<ul className={ styles.grid }>
-					{ data.todos.map((todo) => (
+					{ data.todos.map((todo: Todo) => (
 						<li className={ styles.title } key={ todo.id }>
 							id: { todo.text } done: { todo.done }
 						</li>
