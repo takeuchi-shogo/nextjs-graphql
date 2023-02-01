@@ -1,0 +1,5 @@
+{
+	"tailingComma": "es5",
+	"tabWidth": 4,
+	"arrorwParens": "always"
+}
