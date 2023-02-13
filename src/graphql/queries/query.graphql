@@ -1,0 +1,22 @@
+# query Accounts {
+# 	account {
+# 		id
+# 		phone_number
+# 		email
+# 		password
+# 	}
+# }
+
+query users {
+	users {
+		id
+		display_name
+	}
+}
+
+# query User($id: ID!) {
+# 	user(id: $id) {
+# 		id
+# 		display_name
+# 	}
+# }

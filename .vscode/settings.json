@@ -1,4 +1,5 @@
 {
 	"editor.renderWhitespace": "boundary",
-	"editor.fontFamily": "Menlo, Monaco, 'Roboto Mono', monospace"
+	"editor.fontFamily": "Menlo, Monaco, 'Roboto Mono', monospace",
+	"nuxt.isNuxtApp": false,
 }
