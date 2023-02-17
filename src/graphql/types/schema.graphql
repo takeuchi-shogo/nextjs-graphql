@@ -1,0 +1,48 @@
+type Query {
+	account(id: ID!): Accounts!
+	users: [Users]
+	# user(id: ID!): Users!
+}
+
+type Accounts {
+  id: ID!
+  phone_number: String!
+  email: String!
+  password: String!
+  login_status: Boolean!
+  access_level: String!
+}
+
+type Users {
+  id: ID!
+  account_id: Int!
+  display_name: String!
+  screen_name: String!
+  gender: String!
+  location: String!
+  is_authorize_email: Boolean!
+  is_verified_email: Boolean!
+  is_verified_age: Boolean!
+}
+
+input NewAccounts {
+  phone_number: String!
+  email: String!
+  password: String!
+}
+
+input NewUsers {
+  display_name: String!
+  screen_name: String!
+}
+
+input NewVerifyEmail {
+  email: String!
+}
+
+type Mutation {
+	createAccount(input: NewAccounts): Accounts!
+  createAccountAndUser(account: NewAccounts, user: NewUsers): Users!
+  createUser(input: NewUsers): Users!
+  createVerifyEmail(input: NewVerifyEmails): VerifyEmails!
+}

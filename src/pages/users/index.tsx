@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Navigation from "../../components/navigation";
 import styles from "../../styles/Users.module.css"
-import User from "../../models/users";
 import { Users, UsersQuery } from "../../graphql/graphql";
 import { gql, useQuery } from "@apollo/client";
 
@@ -16,7 +15,7 @@ const users_query = gql`
 `
 
 
-const Users: NextPage = () => {
+const UsersPage: NextPage = () => {
 	const { data, loading, error } = useQuery<UsersQuery>(users_query)
 
 	if (loading) return <p>Now Loading .....</p>
@@ -33,7 +32,7 @@ const Users: NextPage = () => {
 				<h2 className={styles.title}>User List page</h2>
 
 				<ul>
-					{ data?.users.map((users: Users) => (
+					{ data?.users.map((users) => (
 						<li className="font-semibold text-sm" key={ users.id }>
 							id: { users.id } name: { users.display_name }
 						</li>
@@ -45,4 +44,4 @@ const Users: NextPage = () => {
 	)
 }
 
-export default Users
+export default UsersPage

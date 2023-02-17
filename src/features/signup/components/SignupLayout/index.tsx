@@ -1,4 +1,9 @@
-export const SignupLayout = ({ children }) => {
+
+interface Props {
+	children: React.ReactNode;
+}
+
+export const SignupLayout:React.FC<Props> = ({ children }) => {
 	return (
 		<div className="">
 			<div className="max-w-lg mx-auto">

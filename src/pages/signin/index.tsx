@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { LoginLayout } from "../../features/login/components/LoginLayout";
-import { LoginForm } from "../../features/login/components/LoginForm";
+import { LoginLayout } from "../../features/signin/components/SigninLayout";
+import { LoginForm } from "../../features/signin/components/SigninForm";
 
 const LoginPage: NextPage = () => {
 	return (

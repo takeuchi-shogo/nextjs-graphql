@@ -1,6 +1,5 @@
 # query Accounts {
 # 	account {
-# 		id
 # 		phone_number
 # 		email
 # 		password
@@ -19,4 +18,8 @@ query users {
 # 		id
 # 		display_name
 # 	}
+# }
+
+# query get_screen_name {
+# 	screen_name
 # }

@@ -1,0 +1,33 @@
+mutation CreateAccount($account: NewAccounts) {
+	createAccount(input: $account) {
+		phone_number
+		email
+		password
+	}
+}
+
+mutation CreateUser($user: NewUsers) {
+	createUser(input: $user) {
+		display_name
+		screen_name
+		gender
+		location
+	}
+}
+
+mutation CreateVerifyEmail($verify_email: NewVerifyEmail) {
+	createVerifyEmail(input: $verify_email) {
+		token
+		email
+		code
+	}
+}
+
+mutation CreateAccountAndUser($account: NewAccounts!, $user: NewUsers!) {
+	createAccountAndUser(account: $account, user: $user) {
+		display_name
+		screen_name
+		gender
+		location
+	}
+}

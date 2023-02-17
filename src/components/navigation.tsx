@@ -11,6 +11,18 @@ const Navigation = () => {
 			</div>
 
 			<div>
+				<Link href="/signup">
+					<span>Sign up</span>
+				</Link>
+			</div>
+
+			<div>
+				<Link href="/signin">
+					<span>Sign in</span>
+				</Link>
+			</div>
+
+			<div>
 				<Link href="/users">
 					<span>Users</span>
 				</Link>
