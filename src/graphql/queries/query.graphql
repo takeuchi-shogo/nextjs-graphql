@@ -23,3 +23,9 @@ query users {
 # query get_screen_name {
 # 	screen_name
 # }
+
+query GetVerifyEmailByPinCode($code: String!) {
+	verify_email(code: $code) {
+		email
+	}
+}

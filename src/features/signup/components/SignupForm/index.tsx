@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client"
 import { useState } from "react"
-import { CreateAccountAndUserMutation } from "../../../../graphql/graphql"
+import { CreateAccountAndUserMutation, useCreateAccountAndUserMutation, useCreateVerifyEmailMutation } from "../../../../graphql/graphql"
 import { useRouter } from "next/router"
 import { VerifyEmailForm } from "../VerifyEmailForm"
 import { Alert } from "../../../../components/ui/Alert"
@@ -8,13 +8,13 @@ import { CreateAccountForm } from "../CreateAccountForm"
 import { SetPassword } from "../SetPasswordForm"
 
 
-const create_user = gql`
+const create_account_and_user = gql`
 	mutation CreateAccountAndUser($account: NewAccount!, $user: NewUsers!) {
 		createAccountAndUser(account: $account, user: $user) {
-			account {
-				email
-				password
-			}
+			# account {
+			# 	email
+			# 	password
+			# }
 			user {
 				display_name
 				# screen_name
@@ -24,7 +24,6 @@ const create_user = gql`
 		}
 	}
 `
-
 
 export const SignupForm:React.FC = () => {
 
@@ -42,9 +41,10 @@ export const SignupForm:React.FC = () => {
 
 	const [code, setCode] = useState('')
 
-	const [user, { data, loading, error }] = useMutation<CreateAccountAndUserMutation>(create_user)
-
 	const onCode = (event: React.ChangeEvent<HTMLInputElement>) => setCode(event.target.value)
+
+	const [addAccountAndUser, { data, loading, error }] = useCreateAccountAndUserMutation()
+	// const [createVerifyEmailMutation, { data }] = useCreateVerifyEmailMutation()
 
 	const showVerifyEmailForm = () => {
 		setIsVerifyEmail(true)
@@ -65,7 +65,6 @@ export const SignupForm:React.FC = () => {
 	}
 
 	const handleVerifyEmail = (emailInput: string) => {
-		console.log(code)
 		if (emailInput == '') {
 			setErrorMessage('メールアドレスが空です')
 			return
@@ -74,36 +73,47 @@ export const SignupForm:React.FC = () => {
 		showCreateAccountForm()
 	}
 
+	const handleConfirmPinCode = (pinCode: string) => {
+		if (pinCode) {
+			setErrorMessage('コードが一致しません')
+			return
+		}
+		
+	}
+
 	const handleCreateAccount = (displayNameInput: string) => {
 		console.log(displayNameInput)
+		setDisplayName(displayNameInput)
 		showPasswordForm()
 	}
 
 	const handleSetPassword = (passwordInput: string, confirmPasswordInput: string) => {
-		console.log(passwordInput, confirmPasswordInput)
 		if (passwordInput != confirmPasswordInput) {
 			setErrorMessage('password is required')
 			return
 		}
-		async () => {
-			setPassword(passwordInput)
-			await handleSignup()
-		}
+		setPassword(passwordInput)
+		addAccountAndUser({
+			variables: {
+				account: {
+					phone_number: '',
+					email: email,
+					password: password,
+				},
+				user: {
+					display_name: displayName,
+					screen_name: 'test',
+					gender: 'N',
+				}
+			}
+		})
 	}
 
-	const handleSignup = async () => {
-		const account = {
-			email: email,
-			password: password,
-		}
-		const user = {
-			displayName: displayName,
-			// screenName: screenName,
-			// gender: gender,
-			// location: location,
-		}
-		console.log(account, user)
-		router.push("/home")
+	const Status = () => {
+		if (loading) return <p>Loading....</p>
+		if (error) return <p>error</p>
+		if (!data) return null
+		return <p>登録が完了しました</p>
 	}
 
 	return (
@@ -113,7 +123,7 @@ export const SignupForm:React.FC = () => {
 				<div>
 					<VerifyEmailForm
 						handleVerifyEmail={ handleVerifyEmail }
-				/>
+					/>
 				</div>
 			) }
 			{ isCreateAccount && (
@@ -130,6 +140,7 @@ export const SignupForm:React.FC = () => {
 					/>
 				</div>
 			) }
+			<Status/>
 		</>
 	)
 }

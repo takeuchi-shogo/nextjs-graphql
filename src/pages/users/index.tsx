@@ -2,21 +2,11 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Navigation from "../../components/navigation";
 import styles from "../../styles/Users.module.css"
-import { Users, UsersQuery } from "../../graphql/graphql";
-import { gql, useQuery } from "@apollo/client";
-
-const users_query = gql`
-	query {
-		users {
-			id
-			display_name
-		}
-	}
-`
-
+import { useUsersQuery } from "../../graphql/graphql";
 
 const UsersPage: NextPage = () => {
-	const { data, loading, error } = useQuery<UsersQuery>(users_query)
+	const jwtToken = 'test_sample_user'
+	const { data, loading, error } = useUsersQuery()
 
 	if (loading) return <p>Now Loading .....</p>
 	if (error) return <p className='font-bold text-3xl'>error</p>

@@ -47,6 +47,8 @@ export type Mutation = {
   createReport: Reports;
   createUser: Users;
   createVerifyEmail: VerifyEmails;
+  login: Users;
+  updateUser: Users;
 };
 
 
@@ -80,6 +82,16 @@ export type MutationCreateVerifyEmailArgs = {
   input?: InputMaybe<NewVerifyEmails>;
 };
 
+
+export type MutationLoginArgs = {
+  input?: InputMaybe<NewLogin>;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input?: InputMaybe<UpdateUsers>;
+};
+
 export type NewAccounts = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -89,6 +101,11 @@ export type NewAccounts = {
 export type NewBlocks = {
   blocked: Scalars['Int'];
   blocking: Scalars['Int'];
+};
+
+export type NewLogin = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type NewReports = {
@@ -152,6 +169,14 @@ export type Reports = {
   reporter_id: Scalars['Int'];
 };
 
+export type UpdateUsers = {
+  display_name: Scalars['String'];
+  gender: Scalars['String'];
+  id: Scalars['Int'];
+  location: Scalars['String'];
+  screen_name: Scalars['String'];
+};
+
 export type UserProfiles = {
   __typename?: 'UserProfiles';
   description: Scalars['String'];
@@ -176,10 +201,10 @@ export type Users = {
 
 export type VerifyEmails = {
   __typename?: 'VerifyEmails';
-  Email: Scalars['String'];
-  PINCode: Scalars['String'];
-  Token: Scalars['String'];
+  email: Scalars['String'];
   id: Scalars['ID'];
+  pin_code: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type CreateAccountMutationVariables = Exact<{
@@ -196,18 +221,39 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'Users', display_name: string, screen_name: string, gender: string, location: string } };
 
+export type CreateVerifyEmailMutationVariables = Exact<{
+  verify_email?: InputMaybe<NewVerifyEmails>;
+}>;
+
+
+export type CreateVerifyEmailMutation = { __typename?: 'Mutation', createVerifyEmail: { __typename?: 'VerifyEmails', token: string, email: string, pin_code: string } };
+
 export type CreateAccountAndUserMutationVariables = Exact<{
   account: NewAccounts;
   user: NewUsers;
 }>;
 
 
-export type CreateAccountAndUserMutation = { __typename?: 'Mutation', createAccountAndUser: { __typename?: 'Users', display_name: string, screen_name: string, gender: string, location: string } };
+export type CreateAccountAndUserMutation = { __typename?: 'Mutation', createAccountAndUser: { __typename?: 'Users', account_id: number, display_name: string, screen_name: string, gender: string, location: string } };
+
+export type LoginMutationVariables = Exact<{
+  login: NewLogin;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Users', id: string } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'Users', id: string, display_name: string }> };
+
+export type GetVerifyEmailByPinCodeQueryVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+
+export type GetVerifyEmailByPinCodeQuery = { __typename?: 'Query', verify_email: { __typename?: 'VerifyEmails', email: string } };
 
 
 export const CreateAccountDocument = gql`
@@ -281,9 +327,45 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const CreateVerifyEmailDocument = gql`
+    mutation CreateVerifyEmail($verify_email: NewVerifyEmails) {
+  createVerifyEmail(input: $verify_email) {
+    token
+    email
+    pin_code
+  }
+}
+    `;
+export type CreateVerifyEmailMutationFn = Apollo.MutationFunction<CreateVerifyEmailMutation, CreateVerifyEmailMutationVariables>;
+
+/**
+ * __useCreateVerifyEmailMutation__
+ *
+ * To run a mutation, you first call `useCreateVerifyEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVerifyEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVerifyEmailMutation, { data, loading, error }] = useCreateVerifyEmailMutation({
+ *   variables: {
+ *      verify_email: // value for 'verify_email'
+ *   },
+ * });
+ */
+export function useCreateVerifyEmailMutation(baseOptions?: Apollo.MutationHookOptions<CreateVerifyEmailMutation, CreateVerifyEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVerifyEmailMutation, CreateVerifyEmailMutationVariables>(CreateVerifyEmailDocument, options);
+      }
+export type CreateVerifyEmailMutationHookResult = ReturnType<typeof useCreateVerifyEmailMutation>;
+export type CreateVerifyEmailMutationResult = Apollo.MutationResult<CreateVerifyEmailMutation>;
+export type CreateVerifyEmailMutationOptions = Apollo.BaseMutationOptions<CreateVerifyEmailMutation, CreateVerifyEmailMutationVariables>;
 export const CreateAccountAndUserDocument = gql`
     mutation CreateAccountAndUser($account: NewAccounts!, $user: NewUsers!) {
   createAccountAndUser(account: $account, user: $user) {
+    account_id
     display_name
     screen_name
     gender
@@ -318,6 +400,39 @@ export function useCreateAccountAndUserMutation(baseOptions?: Apollo.MutationHoo
 export type CreateAccountAndUserMutationHookResult = ReturnType<typeof useCreateAccountAndUserMutation>;
 export type CreateAccountAndUserMutationResult = Apollo.MutationResult<CreateAccountAndUserMutation>;
 export type CreateAccountAndUserMutationOptions = Apollo.BaseMutationOptions<CreateAccountAndUserMutation, CreateAccountAndUserMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($login: NewLogin!) {
+  login(input: $login) {
+    id
+  }
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      login: // value for 'login'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const UsersDocument = gql`
     query users {
   users {
@@ -353,3 +468,38 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const GetVerifyEmailByPinCodeDocument = gql`
+    query GetVerifyEmailByPinCode($code: String!) {
+  verify_email(code: $code) {
+    email
+  }
+}
+    `;
+
+/**
+ * __useGetVerifyEmailByPinCodeQuery__
+ *
+ * To run a query within a React component, call `useGetVerifyEmailByPinCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVerifyEmailByPinCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVerifyEmailByPinCodeQuery({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useGetVerifyEmailByPinCodeQuery(baseOptions: Apollo.QueryHookOptions<GetVerifyEmailByPinCodeQuery, GetVerifyEmailByPinCodeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetVerifyEmailByPinCodeQuery, GetVerifyEmailByPinCodeQueryVariables>(GetVerifyEmailByPinCodeDocument, options);
+      }
+export function useGetVerifyEmailByPinCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetVerifyEmailByPinCodeQuery, GetVerifyEmailByPinCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetVerifyEmailByPinCodeQuery, GetVerifyEmailByPinCodeQueryVariables>(GetVerifyEmailByPinCodeDocument, options);
+        }
+export type GetVerifyEmailByPinCodeQueryHookResult = ReturnType<typeof useGetVerifyEmailByPinCodeQuery>;
+export type GetVerifyEmailByPinCodeLazyQueryHookResult = ReturnType<typeof useGetVerifyEmailByPinCodeLazyQuery>;
+export type GetVerifyEmailByPinCodeQueryResult = Apollo.QueryResult<GetVerifyEmailByPinCodeQuery, GetVerifyEmailByPinCodeQueryVariables>;

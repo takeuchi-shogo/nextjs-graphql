@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Alert } from "../../../../components/ui/Alert"
+import { useLoginMutation } from "../../../../graphql/graphql"
+import { useRouter } from "next/router"
 
 
 let errorMessage: string = ''
@@ -8,6 +10,7 @@ let errorMessage: string = ''
 
 export const LoginForm:React.FC = () => {
 
+	const router = useRouter()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -16,7 +19,11 @@ export const LoginForm:React.FC = () => {
 	const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)
 	const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)
 
-	const handleLogin = () => {
+	const [login, {data, loading, error}] = useLoginMutation()
+
+	const handleLogin = async () => {
+		errorMessage = ''
+		setIsError(false)
 		if (email == '') {
 			errorMessage = 'email is empty'
 			setIsError(true)
@@ -27,18 +34,25 @@ export const LoginForm:React.FC = () => {
 			setIsError(true)
 			return
 		}
-		errorMessage = ''
-		setIsError(false)
-		const _params = {
-			email: email,
-			password: password,
-		}
-		console.log(_params)
+		login({
+			variables: {
+				login: {
+					email: email,
+					password: password,
+				},
+			}
+		})
+		router.push('home')
 	}
 
 	return (
 		<form className="my-10">
 			{ isError&& (<Alert message={ errorMessage }/>) }
+			{ error && error?.graphQLErrors.map(({ message }, i) => (
+				<div key={i}>
+					<Alert message={ message }/>
+				</div>
+			))}
 			<div className="flex flex-col space-y-5">
 				<div className="relative z-0 w-full mb-6 group">
 					<input
@@ -89,7 +103,8 @@ export const LoginForm:React.FC = () => {
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 						<path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
 					</svg>
-					<span>Sign in</span>
+					{ loading && (<span>Login...</span>) }
+					{ !loading && (<span>Sign in</span>) }
 				</button>
 				<p className="text-center">Not registered yet? 
 					<Link href="/signup" className="text-indigo-600 font-medium inline-flex space-x-1 items-center">

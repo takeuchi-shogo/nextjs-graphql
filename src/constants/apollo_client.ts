@@ -1,9 +1,6 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache, Observable } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, Observable } from '@apollo/client'
 import { onError } from "@apollo/client/link/error";
-import { parseCookies, setCookie } from 'nookies'
+import { setToken, getCookies } from '../libs/cookie';
 
 const httpLink = createHttpLink({
 	uri: "http://localhost:8080/query",
@@ -12,7 +9,7 @@ const httpLink = createHttpLink({
 
 
 const authLink = new ApolloLink((operation, forward) => {
-	const jwtToken = parseCookies()
+	const jwtToken = getCookies()
 	operation.setContext(({ headers = {} }) => ({
 		headers: {
 		...headers,
@@ -30,10 +27,7 @@ const tokenLink = new ApolloLink((operation, forward) => {
 		if (context.response.headers) {
 			const jwtToken = context.response.headers.get('authorization')
 			if (jwtToken) {
-				setCookie(null, 'JWT_TOKEN', jwtToken, {
-					maxAge: 7 * 24 * 60 * 60, // 30 days
-					path: '/',
-				})
+				setToken('JWT_TOKEN', jwtToken)
 			}
 		}
 		return response
@@ -57,21 +51,8 @@ const link = ApolloLink.from([
 	httpLink
 ])
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	uri: "http://localhost:8080/query",
 	link: link,
 })
-
-function MyApp({ Component, pageProps }: AppProps) {
-
-	// client.resetStore()
-
-	return (
-		<ApolloProvider client={ client }>
-			<Component {...pageProps} />
-		</ApolloProvider>
-	)
-}
-
-export default MyApp

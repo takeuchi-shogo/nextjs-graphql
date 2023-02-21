@@ -1,7 +1,8 @@
 type Query {
-	account(id: ID!): Accounts!
-	users: [Users]
-	# user(id: ID!): Users!
+  account(id: ID!): Accounts!
+  users: [Users]
+  # user(id: ID!): Users!
+  verify_email(code: String): VerifyEmails!
 }
 
 type Accounts {
@@ -25,6 +26,13 @@ type Users {
   is_verified_age: Boolean!
 }
 
+type VerifyEmails {
+  id: ID!
+  email: String!
+  token: String!
+  pin_code: String!
+}
+
 input NewAccounts {
   phone_number: String!
   email: String!
@@ -36,13 +44,19 @@ input NewUsers {
   screen_name: String!
 }
 
-input NewVerifyEmail {
+input NewVerifyEmails {
   email: String!
 }
 
+input NewLogin {
+  email: String!
+  password: String!
+}
+
 type Mutation {
-	createAccount(input: NewAccounts): Accounts!
+  createAccount(input: NewAccounts): Accounts!
   createAccountAndUser(account: NewAccounts, user: NewUsers): Users!
   createUser(input: NewUsers): Users!
   createVerifyEmail(input: NewVerifyEmails): VerifyEmails!
+  Login(input: NewLogin!): Users!
 }

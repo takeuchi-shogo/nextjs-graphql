@@ -15,19 +15,26 @@ mutation CreateUser($user: NewUsers) {
 	}
 }
 
-mutation CreateVerifyEmail($verify_email: NewVerifyEmail) {
+mutation CreateVerifyEmail($verify_email: NewVerifyEmails) {
 	createVerifyEmail(input: $verify_email) {
 		token
 		email
-		code
+		pin_code
 	}
 }
 
 mutation CreateAccountAndUser($account: NewAccounts!, $user: NewUsers!) {
 	createAccountAndUser(account: $account, user: $user) {
+		account_id
 		display_name
 		screen_name
 		gender
 		location
+	}
+}
+
+mutation Login($login: NewLogin!) {
+	login(input: $login) {
+		id
 	}
 }
