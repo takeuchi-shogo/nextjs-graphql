@@ -1,38 +1,24 @@
-import { gql, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-
-const get_user = gql`
-	query User($id: ID!) {
-		user(id: $id) {
-			id
-			name
-			# password
-		}
-	}
-`
+import { SingleLayout } from "../../features/users/components/SingleLayout";
+import { useEffect, useState } from "react";
 
 const UserId: NextPage = () => {
 	const router = useRouter()
-	let id = router.query.uid
-	const { data, loading, error } = useQuery(get_user, {
-		variables: { id },
-	})
+	const [paramsId, setParamsId] = useState('')
 
-	if (loading) return <p>Now Loading .....</p>
-	if (error) return <p className='font-bold text-3xl'>error</p>
+	useEffect(() => {
+		if (router.isReady) {
+			let uid = router.query.uid
+			setParamsId(uid as string)
+		}
+	}, [ router ])
 
-
-	const handleClick = () => {
-		console.log('クリックされました')
-	}
 	return (
 		<div>
-			{ router.query.id }番目のユーザーです
-
-			<button onClick={ handleClick }>Click!!!</button>
-			<div>{ data.user.name }</div>
-
+			<SingleLayout
+				id={ paramsId }
+			/>
 		</div>
 	)
 }

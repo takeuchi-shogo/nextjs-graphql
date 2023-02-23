@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Alert } from "../../../../components/ui/Alert"
 import { useLoginMutation } from "../../../../graphql/graphql"
@@ -21,7 +21,8 @@ export const LoginForm:React.FC = () => {
 
 	const [login, {data, loading, error}] = useLoginMutation()
 
-	const handleLogin = async () => {
+	const handleLogin = async (e: React.FormEvent) => {
+		e.preventDefault()
 		errorMessage = ''
 		setIsError(false)
 		if (email == '') {
@@ -34,14 +35,21 @@ export const LoginForm:React.FC = () => {
 			setIsError(true)
 			return
 		}
-		login({
-			variables: {
-				login: {
-					email: email,
-					password: password,
-				},
-			}
-		})
+		try {
+			login({
+				variables: {
+					login: {
+						email: email,
+						password: password,
+					},
+				}
+			})
+		} catch {
+			console.log(error)
+		}
+	}
+
+	if (data) {
 		router.push('home')
 	}
 

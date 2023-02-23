@@ -6,6 +6,7 @@ import { VerifyEmailForm } from "../VerifyEmailForm"
 import { Alert } from "../../../../components/ui/Alert"
 import { CreateAccountForm } from "../CreateAccountForm"
 import { SetPassword } from "../SetPasswordForm"
+import { PinCodeForm } from "../PinCodeForm"
 
 
 const create_account_and_user = gql`
@@ -30,6 +31,7 @@ export const SignupForm:React.FC = () => {
 	const router = useRouter()
 
 	const [isVerifyEmail, setIsVerifyEmail] = useState(true)
+	const [isPinCode, setIsPinCode] = useState(false)
 	const [isCreateAccount, setIsCreateAccount] = useState(false)
 	const [isPassword, setIsPassword] = useState(false)
 
@@ -44,22 +46,31 @@ export const SignupForm:React.FC = () => {
 	const onCode = (event: React.ChangeEvent<HTMLInputElement>) => setCode(event.target.value)
 
 	const [addAccountAndUser, { data, loading, error }] = useCreateAccountAndUserMutation()
-	// const [createVerifyEmailMutation, { data }] = useCreateVerifyEmailMutation()
 
 	const showVerifyEmailForm = () => {
 		setIsVerifyEmail(true)
+		setIsPinCode(false)
+		setIsCreateAccount(false)
+		setIsPassword(false)
+	}
+
+	const showPinCode = () => {
+		setIsVerifyEmail(false)
+		setIsPinCode(true)
 		setIsCreateAccount(false)
 		setIsPassword(false)
 	}
 
 	const showCreateAccountForm = () => {
 		setIsVerifyEmail(false)
+		setIsPinCode(false)
 		setIsCreateAccount(true)
 		setIsPassword(false)
 	}
 
 	const showPasswordForm = () => {
 		setIsVerifyEmail(false)
+		setIsPinCode(false)
 		setIsCreateAccount(false)
 		setIsPassword(true)
 	}
@@ -70,15 +81,15 @@ export const SignupForm:React.FC = () => {
 			return
 		}
 		setEmail(emailInput)
-		showCreateAccountForm()
+		showPinCode()
 	}
 
-	const handleConfirmPinCode = (pinCode: string) => {
-		if (pinCode) {
-			setErrorMessage('コードが一致しません')
-			return
-		}
-		
+	const handleConfirmPinCode = () => {
+		// if (pinCode) {
+		// 	setErrorMessage('コードが一致しません')
+		// 	return
+		// }
+		showCreateAccountForm()
 	}
 
 	const handleCreateAccount = (displayNameInput: string) => {
@@ -103,7 +114,7 @@ export const SignupForm:React.FC = () => {
 				user: {
 					display_name: displayName,
 					screen_name: 'test',
-					gender: 'N',
+					gender: 'M',
 				}
 			}
 		})
@@ -119,6 +130,16 @@ export const SignupForm:React.FC = () => {
 	return (
 		<>
 			{ errorMessage != '' &&(<Alert message={ errorMessage }/>) }
+			{ isPinCode && (
+				<div>
+					<PinCodeForm
+						handleConfirmPinCode= { handleConfirmPinCode }
+					/>
+				</div>
+			) }
+			{/* <PinCodeForm
+				handlePinCode= { handleConfirmPinCode }
+			/> */}
 			{ isVerifyEmail && (
 				<div>
 					<VerifyEmailForm

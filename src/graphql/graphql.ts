@@ -197,6 +197,7 @@ export type Users = {
   is_verified_email: Scalars['Boolean'];
   location: Scalars['String'];
   screen_name: Scalars['String'];
+  uuid: Scalars['String'];
 };
 
 export type VerifyEmails = {
@@ -247,6 +248,13 @@ export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'Users', id: string, display_name: string }> };
+
+export type UserQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'Users', id: string, uuid: string, display_name: string } };
 
 export type GetVerifyEmailByPinCodeQueryVariables = Exact<{
   code: Scalars['String'];
@@ -468,6 +476,43 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const UserDocument = gql`
+    query user($id: ID!) {
+  user(id: $id) {
+    id
+    uuid
+    display_name
+  }
+}
+    `;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const GetVerifyEmailByPinCodeDocument = gql`
     query GetVerifyEmailByPinCode($code: String!) {
   verify_email(code: $code) {
