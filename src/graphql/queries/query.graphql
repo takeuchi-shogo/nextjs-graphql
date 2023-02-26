@@ -1,15 +1,44 @@
-# query Accounts {
-# 	account {
-# 		phone_number
-# 		email
-# 		password
-# 	}
-# }
+query accounts($id: ID!) {
+	account(id: $id) {
+		phone_number
+		email
+		password
+	}
+}
 
-query users {
-	users {
+query me {
+	me {
 		id
 		display_name
+		gender
+		location
+	}
+}
+
+# query users {
+# 	users {
+# 		id
+# 		display_name
+# 	}
+# }
+query users($first: Int!, $after: String!, $filter: UserFilter) {
+	users(first: $first, after: $after, filter: $filter) {
+		edges {
+			cursor
+			node {
+				id
+				uuid
+				display_name
+				screen_name
+				gender
+			}
+		},
+		page_info {
+			has_next_page
+			has_previous_page
+			start_cursor
+			end_cursor
+		}
 	}
 }
 

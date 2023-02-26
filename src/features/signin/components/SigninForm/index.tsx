@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { Alert } from "../../../../components/ui/Alert"
 import { useLoginMutation } from "../../../../graphql/graphql"

@@ -38,3 +38,20 @@ mutation Login($login: NewLogin!) {
 		id
 	}
 }
+
+mutation UpdateAccount($account: UpdateAccounts!) {
+	updateAccount(input: $account) {
+		phone_number
+		email
+		password
+	}
+}
+
+
+mutation UpdateUser($user: UpdateUsers!) {
+	updateUser(input: $user) {
+		display_name
+		gender
+		location
+	}
+}

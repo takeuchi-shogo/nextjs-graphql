@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useGetVerifyEmailByPinCodeQuery } from "../../../graphql/graphql"
-import { useConfirmPinCode } from "../../../hooks/usePinCode"
+import { Alert } from "../../../components/ui/Alert"
 
 interface Props {
 	handleConfirmPinCode: () => void
@@ -56,22 +56,10 @@ export const PinCodeForm: React.FC<Props> = ({ handleConfirmPinCode }) => {
 		variables: { code: '' },
 	})
 
-	// const confirmPinCode = (code: string) => {
-	// 	const { data, loading, error} = useGetVerifyEmailByPinCodeQuery({
-	// 		variables: {
-	// 			code: code,
-	// 		}
-	// 	})
-	// 	return { data, loading, error }
-	// }
 
 	const handlePinCode = () => {
 		let code = [...codeArr]
 		let c = code.join('')
-		console.log('pin code', c)
-		// let d = useConfirmPinCode(c)
-		// const [usepin, {data, loading, error}] = useConfirmPinCode(c)
-		// console.log(d.data)
 		try {
 			refetch({ code: c })
 			console.log(data, error)
@@ -81,13 +69,15 @@ export const PinCodeForm: React.FC<Props> = ({ handleConfirmPinCode }) => {
 		} catch {
 			console.log(error)
 		}
-		// let {data, loading, error} = confirmPinCode(c)
-		// if(error) { console.log(error)}
-		// if (data) { console.log('data', data)}
 	}
 	
 	return (
 		<form className="my-5">
+			{ error && error?.graphQLErrors.map(({ message }, i) => (
+				<div key={i}>
+					<Alert message={ message }/>
+				</div>
+			))}
 			<div className="relative z-0 w-full mb-6 group">
 				<div className="flex justify-between">
 					{ codeArr.map((digit, i) => (

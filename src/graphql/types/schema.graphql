@@ -1,6 +1,8 @@
 type Query {
-  account(id: ID!): Accounts!
-  users: [Users]
+  account: Accounts!
+  me: Users!
+  # users: [Users]
+  users(first: Int!, after: String!, filter: UserFilter): UserConnection!
   user(id: ID!): Users!
   verify_email(code: String): VerifyEmails!
 }
@@ -27,6 +29,37 @@ type Users {
   is_verified_age: Boolean!
 }
 
+type PageInfo {
+  has_next_page: Boolean!
+  has_previous_page: Boolean!
+  start_cursor: String
+  end_cursor: String
+}
+
+type UserProfiles {
+  id: ID!
+  user_id: Int!
+  introduction: String!
+  interests: String!
+  looking_for: String!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  page_info: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: Users!
+}
+
+input UserFilter {
+  age: Int
+  gender: String
+  location: String
+}
+
 type VerifyEmails {
   id: ID!
   email: String!
@@ -35,14 +68,18 @@ type VerifyEmails {
 }
 
 input NewAccounts {
+  id: Int!
   phone_number: String!
   email: String!
   password: String!
 }
 
 input NewUsers {
+  id: Int!
   display_name: String!
   screen_name: String!
+  gender: String!
+  location: String!
 }
 
 input NewVerifyEmails {
@@ -60,4 +97,7 @@ type Mutation {
   createUser(input: NewUsers): Users!
   createVerifyEmail(input: NewVerifyEmails): VerifyEmails!
   Login(input: NewLogin!): Users!
+
+  updateAccount(input: NewAccounts!): NewAccounts!
+  updateUser(input: NewUsers!): Users!
 }

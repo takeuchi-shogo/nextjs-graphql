@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error";
 import { setToken, getCookies } from '../libs/cookie';
 
 const httpLink = createHttpLink({
-	uri: "http://localhost:8080/query",
+	uri: "http://localhost:8080/graphql",
 	// credentials: "include",
 })
 
@@ -53,6 +53,6 @@ const link = ApolloLink.from([
 
 export const client = new ApolloClient({
 	cache: new InMemoryCache(),
-	uri: "http://localhost:8080/query",
+	uri: "http://localhost:8080/graphql",
 	link: link,
 })

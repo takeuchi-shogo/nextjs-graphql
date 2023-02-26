@@ -1,22 +1,22 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache, Observable } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from "@apollo/client/link/error";
 import { parseCookies, setCookie } from 'nookies'
 
 const httpLink = createHttpLink({
-	uri: "http://localhost:8080/query",
+	uri: "http://localhost:8080/graphql",
 	// credentials: "include",
 })
 
+const jwtToken = parseCookies()
 
 const authLink = new ApolloLink((operation, forward) => {
-	const jwtToken = parseCookies()
+
 	operation.setContext(({ headers = {} }) => ({
 		headers: {
-		...headers,
-		Authorization: jwtToken ? `Bearer ${jwtToken.JWT_TOKEN}` : '', // JWTをAuthorizationヘッダーに含める
+			...headers,
+			Authorization: jwtToken.JWT_TOKEN ? `${jwtToken.JWT_TOKEN}` : '', // JWTをAuthorizationヘッダーに含める
 		},
 	}))
 	return forward(operation)
@@ -31,7 +31,7 @@ const tokenLink = new ApolloLink((operation, forward) => {
 			const jwtToken = context.response.headers.get('authorization')
 			if (jwtToken) {
 				setCookie(null, 'JWT_TOKEN', jwtToken, {
-					maxAge: 7 * 24 * 60 * 60, // 30 days
+					maxAge: 1 * 24 * 60 * 60, // 30 days
 					path: '/',
 				})
 			}
@@ -59,13 +59,11 @@ const link = ApolloLink.from([
 
 const client = new ApolloClient({
 	cache: new InMemoryCache(),
-	uri: "http://localhost:8080/query",
+	uri: "http://localhost:8080/graphql",
 	link: link,
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-	// client.resetStore()
 
 	return (
 		<ApolloProvider client={ client }>
