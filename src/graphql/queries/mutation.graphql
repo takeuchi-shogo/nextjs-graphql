@@ -33,6 +33,13 @@ mutation CreateAccountAndUser($account: NewAccounts!, $user: NewUsers!) {
 	}
 }
 
+mutation CreateUserSearchFilters($filter: NewUserSearchFilters) {
+	createUserSearchFilters(input: $filter) {
+		gender
+		location
+	}
+}
+
 mutation Login($login: NewLogin!) {
 	login(input: $login) {
 		id
@@ -51,6 +58,13 @@ mutation UpdateAccount($account: UpdateAccounts!) {
 mutation UpdateUser($user: UpdateUsers!) {
 	updateUser(input: $user) {
 		display_name
+		gender
+		location
+	}
+}
+
+mutation UpdateUserSearchFilters($filter: UpdateUserSearchFilters) {
+	updateUserSearchFilters(input: $filter) {
 		gender
 		location
 	}

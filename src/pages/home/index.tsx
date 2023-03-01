@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { SideNavigationContainer } from "../../components/layout/SideNavigationContainer";
 
 export const Home: NextPage = () => {
 	return (
@@ -10,7 +11,8 @@ export const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main>
+			<main className="flex">
+				<SideNavigationContainer/>
 				<div className="mx-auto max-w-7xl px-4 py-3">
 					<h1 className='mx-auto text-3xl'>
 						Hello, Home Page!!!

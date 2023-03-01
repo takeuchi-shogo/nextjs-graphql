@@ -2,8 +2,9 @@ type Query {
   account: Accounts!
   me: Users!
   # users: [Users]
-  users(first: Int!, after: String!, filter: UserFilter): UserConnection!
+  users(first: Int!, after: String!): UserConnection!
   user(id: ID!): Users!
+  user_search_filters: UserSearchFilters!
   verify_email(code: String): VerifyEmails!
 }
 
@@ -54,8 +55,8 @@ type UserEdge {
   node: Users!
 }
 
-input UserFilter {
-  age: Int
+type UserSearchFilters {
+  # age: Int
   gender: String
   location: String
 }
@@ -82,6 +83,17 @@ input NewUsers {
   location: String!
 }
 
+input NewUserSearchFilters {
+  gender: String
+  location: String
+}
+
+input UpdateUserSearchFilters {
+  id: ID!
+  gender: String
+  location: String
+}
+
 input NewVerifyEmails {
   email: String!
 }
@@ -97,6 +109,9 @@ type Mutation {
   createUser(input: NewUsers): Users!
   createVerifyEmail(input: NewVerifyEmails): VerifyEmails!
   Login(input: NewLogin!): Users!
+
+  createUserSearchFilters(input: NewUserSearchFilters): UserSearchFilters!
+  updateUserSearchFilters(input: UpdateUserSearchFilters): UserSearchFilters!
 
   updateAccount(input: NewAccounts!): NewAccounts!
   updateUser(input: NewUsers!): Users!

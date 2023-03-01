@@ -20,12 +20,6 @@ export const MyProfileEditForm: React.FC = () => {
 			<Alert message={ message }/>
 		</div>
 	))}</div>
-	if (data && !error) {
-		console.log(data)
-		// setDisplayName(data.me.display_name)
-		// setGender(data.me.gender)
-		// setLocation(data.me.location)
-	}
 
 	const save = () => {
 		console.log(displayName, gender, location)

@@ -15,14 +15,8 @@ query me {
 	}
 }
 
-# query users {
-# 	users {
-# 		id
-# 		display_name
-# 	}
-# }
-query users($first: Int!, $after: String!, $filter: UserFilter) {
-	users(first: $first, after: $after, filter: $filter) {
+query users($first: Int!, $after: String!) {
+	users(first: $first, after: $after) {
 		edges {
 			cursor
 			node {
@@ -50,9 +44,13 @@ query user($id: ID!) {
 	}
 }
 
-# query get_screen_name {
-# 	screen_name
-# }
+query UserSearchFilters {
+	user_search_filters {
+		id
+		gender
+		location
+	}
+}
 
 query GetVerifyEmailByPinCode($code: String!) {
 	verify_email(code: $code) {

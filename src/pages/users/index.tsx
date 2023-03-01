@@ -6,18 +6,12 @@ import { useUsersQuery } from "../../graphql/graphql";
 import Link from "next/link";
 
 const UsersPage: NextPage = () => {
-	const jwtToken = 'test_sample_user'
 	const { data, loading, error } = useUsersQuery({
 		variables: {
 			first: 10,
 			after: "",
-			filter: {
-			  "gender": "",
-			  "location": ""
-			}
 		  }
 	})
-	console.log(data)
 
 	if (loading) return <p>Now Loading .....</p>
 	if (error) return <p className='font-bold text-3xl'>error</p>
@@ -31,6 +25,10 @@ const UsersPage: NextPage = () => {
 			</Head>
 			<main className={styles.main}>
 				<h2 className={styles.title}>User List page</h2>
+
+				<Link href="/user_search_filters">
+					検索
+				</Link>
 
 				<ul>
 					{ data?.users.edges.map((users) => (

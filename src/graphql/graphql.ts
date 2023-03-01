@@ -46,10 +46,12 @@ export type Mutation = {
   createBlock: Blocks;
   createReport: Reports;
   createUser: Users;
+  createUserSearchFilters: UserSearchFilters;
   createVerifyEmail: VerifyEmails;
   login: Users;
   updateAccount: Accounts;
   updateUser: Users;
+  updateUserSearchFilters: UserSearchFilters;
 };
 
 
@@ -79,6 +81,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationCreateUserSearchFiltersArgs = {
+  input?: InputMaybe<NewUserSearchFilters>;
+};
+
+
 export type MutationCreateVerifyEmailArgs = {
   input?: InputMaybe<NewVerifyEmails>;
 };
@@ -96,6 +103,11 @@ export type MutationUpdateAccountArgs = {
 
 export type MutationUpdateUserArgs = {
   input?: InputMaybe<UpdateUsers>;
+};
+
+
+export type MutationUpdateUserSearchFiltersArgs = {
+  input?: InputMaybe<UpdateUserSearchFilters>;
 };
 
 export type NewAccounts = {
@@ -118,6 +130,11 @@ export type NewReports = {
   reason: Scalars['String'];
   reported_id: Scalars['Int'];
   reporter_id: Scalars['Int'];
+};
+
+export type NewUserSearchFilters = {
+  gender?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
 };
 
 export type NewUsers = {
@@ -147,6 +164,7 @@ export type Query = {
   report: Reports;
   reports: Array<Reports>;
   user: Users;
+  user_search_filters: UserSearchFilters;
   users: UserConnection;
   verify_email: VerifyEmails;
 };
@@ -174,7 +192,6 @@ export type QueryUserArgs = {
 
 export type QueryUsersArgs = {
   after: Scalars['String'];
-  filter?: InputMaybe<UserFilter>;
   first: Scalars['Int'];
 };
 
@@ -206,6 +223,12 @@ export type UpdateUserProfiles = {
   user_id: Scalars['Int'];
 };
 
+export type UpdateUserSearchFilters = {
+  gender?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  location?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateUsers = {
   display_name: Scalars['String'];
   gender: Scalars['String'];
@@ -226,18 +249,20 @@ export type UserEdge = {
   node: Users;
 };
 
-export type UserFilter = {
-  age?: InputMaybe<Scalars['Int']>;
-  gender?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
-};
-
 export type UserProfiles = {
   __typename?: 'UserProfiles';
   id: Scalars['ID'];
   interests: Scalars['String'];
   introduction: Scalars['String'];
   looking_for: Scalars['String'];
+  user_id: Scalars['Int'];
+};
+
+export type UserSearchFilters = {
+  __typename?: 'UserSearchFilters';
+  gender: Scalars['String'];
+  id: Scalars['ID'];
+  location?: Maybe<Scalars['String']>;
   user_id: Scalars['Int'];
 };
 
@@ -292,6 +317,13 @@ export type CreateAccountAndUserMutationVariables = Exact<{
 
 export type CreateAccountAndUserMutation = { __typename?: 'Mutation', createAccountAndUser: { __typename?: 'Users', account_id: number, display_name: string, screen_name: string, gender: string, location: string } };
 
+export type CreateUserSearchFiltersMutationVariables = Exact<{
+  filter?: InputMaybe<NewUserSearchFilters>;
+}>;
+
+
+export type CreateUserSearchFiltersMutation = { __typename?: 'Mutation', createUserSearchFilters: { __typename?: 'UserSearchFilters', gender: string, location?: string | null } };
+
 export type LoginMutationVariables = Exact<{
   login: NewLogin;
 }>;
@@ -313,6 +345,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'Users', display_name: string, gender: string, location: string } };
 
+export type UpdateUserSearchFiltersMutationVariables = Exact<{
+  filter?: InputMaybe<UpdateUserSearchFilters>;
+}>;
+
+
+export type UpdateUserSearchFiltersMutation = { __typename?: 'Mutation', updateUserSearchFilters: { __typename?: 'UserSearchFilters', gender: string, location?: string | null } };
+
 export type AccountsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -328,7 +367,6 @@ export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Users', id: st
 export type UsersQueryVariables = Exact<{
   first: Scalars['Int'];
   after: Scalars['String'];
-  filter?: InputMaybe<UserFilter>;
 }>;
 
 
@@ -340,6 +378,11 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'Users', id: string, uuid: string, display_name: string } };
+
+export type UserSearchFiltersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserSearchFiltersQuery = { __typename?: 'Query', user_search_filters: { __typename?: 'UserSearchFilters', id: string, gender: string, location?: string | null } };
 
 export type GetVerifyEmailByPinCodeQueryVariables = Exact<{
   code: Scalars['String'];
@@ -493,6 +536,40 @@ export function useCreateAccountAndUserMutation(baseOptions?: Apollo.MutationHoo
 export type CreateAccountAndUserMutationHookResult = ReturnType<typeof useCreateAccountAndUserMutation>;
 export type CreateAccountAndUserMutationResult = Apollo.MutationResult<CreateAccountAndUserMutation>;
 export type CreateAccountAndUserMutationOptions = Apollo.BaseMutationOptions<CreateAccountAndUserMutation, CreateAccountAndUserMutationVariables>;
+export const CreateUserSearchFiltersDocument = gql`
+    mutation CreateUserSearchFilters($filter: NewUserSearchFilters) {
+  createUserSearchFilters(input: $filter) {
+    gender
+    location
+  }
+}
+    `;
+export type CreateUserSearchFiltersMutationFn = Apollo.MutationFunction<CreateUserSearchFiltersMutation, CreateUserSearchFiltersMutationVariables>;
+
+/**
+ * __useCreateUserSearchFiltersMutation__
+ *
+ * To run a mutation, you first call `useCreateUserSearchFiltersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserSearchFiltersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserSearchFiltersMutation, { data, loading, error }] = useCreateUserSearchFiltersMutation({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useCreateUserSearchFiltersMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserSearchFiltersMutation, CreateUserSearchFiltersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserSearchFiltersMutation, CreateUserSearchFiltersMutationVariables>(CreateUserSearchFiltersDocument, options);
+      }
+export type CreateUserSearchFiltersMutationHookResult = ReturnType<typeof useCreateUserSearchFiltersMutation>;
+export type CreateUserSearchFiltersMutationResult = Apollo.MutationResult<CreateUserSearchFiltersMutation>;
+export type CreateUserSearchFiltersMutationOptions = Apollo.BaseMutationOptions<CreateUserSearchFiltersMutation, CreateUserSearchFiltersMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($login: NewLogin!) {
   login(input: $login) {
@@ -596,6 +673,40 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UpdateUserSearchFiltersDocument = gql`
+    mutation UpdateUserSearchFilters($filter: UpdateUserSearchFilters) {
+  updateUserSearchFilters(input: $filter) {
+    gender
+    location
+  }
+}
+    `;
+export type UpdateUserSearchFiltersMutationFn = Apollo.MutationFunction<UpdateUserSearchFiltersMutation, UpdateUserSearchFiltersMutationVariables>;
+
+/**
+ * __useUpdateUserSearchFiltersMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserSearchFiltersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserSearchFiltersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserSearchFiltersMutation, { data, loading, error }] = useUpdateUserSearchFiltersMutation({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useUpdateUserSearchFiltersMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserSearchFiltersMutation, UpdateUserSearchFiltersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserSearchFiltersMutation, UpdateUserSearchFiltersMutationVariables>(UpdateUserSearchFiltersDocument, options);
+      }
+export type UpdateUserSearchFiltersMutationHookResult = ReturnType<typeof useUpdateUserSearchFiltersMutation>;
+export type UpdateUserSearchFiltersMutationResult = Apollo.MutationResult<UpdateUserSearchFiltersMutation>;
+export type UpdateUserSearchFiltersMutationOptions = Apollo.BaseMutationOptions<UpdateUserSearchFiltersMutation, UpdateUserSearchFiltersMutationVariables>;
 export const AccountsDocument = gql`
     query accounts($id: ID!) {
   account(id: $id) {
@@ -671,8 +782,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UsersDocument = gql`
-    query users($first: Int!, $after: String!, $filter: UserFilter) {
-  users(first: $first, after: $after, filter: $filter) {
+    query users($first: Int!, $after: String!) {
+  users(first: $first, after: $after) {
     edges {
       cursor
       node {
@@ -707,7 +818,6 @@ export const UsersDocument = gql`
  *   variables: {
  *      first: // value for 'first'
  *      after: // value for 'after'
- *      filter: // value for 'filter'
  *   },
  * });
  */
@@ -759,6 +869,42 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const UserSearchFiltersDocument = gql`
+    query UserSearchFilters {
+  user_search_filters {
+    id
+    gender
+    location
+  }
+}
+    `;
+
+/**
+ * __useUserSearchFiltersQuery__
+ *
+ * To run a query within a React component, call `useUserSearchFiltersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserSearchFiltersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserSearchFiltersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserSearchFiltersQuery(baseOptions?: Apollo.QueryHookOptions<UserSearchFiltersQuery, UserSearchFiltersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserSearchFiltersQuery, UserSearchFiltersQueryVariables>(UserSearchFiltersDocument, options);
+      }
+export function useUserSearchFiltersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserSearchFiltersQuery, UserSearchFiltersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserSearchFiltersQuery, UserSearchFiltersQueryVariables>(UserSearchFiltersDocument, options);
+        }
+export type UserSearchFiltersQueryHookResult = ReturnType<typeof useUserSearchFiltersQuery>;
+export type UserSearchFiltersLazyQueryHookResult = ReturnType<typeof useUserSearchFiltersLazyQuery>;
+export type UserSearchFiltersQueryResult = Apollo.QueryResult<UserSearchFiltersQuery, UserSearchFiltersQueryVariables>;
 export const GetVerifyEmailByPinCodeDocument = gql`
     query GetVerifyEmailByPinCode($code: String!) {
   verify_email(code: $code) {

@@ -25,8 +25,7 @@ const authLink = new ApolloLink((operation, forward) => {
 const tokenLink = new ApolloLink((operation, forward) => {
 	return forward(operation).map((response) => {
 		const context = operation.getContext()
-		const { response: { headers } } = context
-		console.log('jwt', headers.get('authorization'))
+		// const { response: { headers } } = context
 		if (context.response.headers) {
 			const jwtToken = context.response.headers.get('authorization')
 			if (jwtToken) {
