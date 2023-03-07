@@ -7,7 +7,9 @@ interface PrivateLayoutProps {
 export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
 	return (
 		<>
-			{ children }
+			<div className="flex max-w-4xl mx-auto">
+				{ children }
+			</div>
 		</>
 	)
 }

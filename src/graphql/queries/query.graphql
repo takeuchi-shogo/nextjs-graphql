@@ -21,7 +21,6 @@ query users($first: Int!, $after: String!) {
 			cursor
 			node {
 				id
-				uuid
 				display_name
 				screen_name
 				gender
@@ -41,6 +40,25 @@ query user($id: ID!) {
 		id
 		uuid
 		display_name
+		age
+		is_liked
+		user_profile {
+			user_id
+			# introduction
+			height_id
+			height
+			body_type
+			blood_type
+			residence_country
+			residence_state
+			hometown_country
+			hometown_state
+			occupation
+			education
+			annual_income
+			smoking
+			drinking
+		}
 	}
 }
 

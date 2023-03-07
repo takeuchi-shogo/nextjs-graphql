@@ -32,6 +32,14 @@ export type Blocks = {
   id: Scalars['ID'];
 };
 
+export type Likes = {
+  __typename?: 'Likes';
+  created_at: Scalars['Int'];
+  id: Scalars['ID'];
+  receive_user_id: Scalars['Int'];
+  send_user_id: Scalars['Int'];
+};
+
 export type Matches = {
   __typename?: 'Matches';
   female_user_id: Scalars['Int'];
@@ -44,6 +52,7 @@ export type Mutation = {
   createAccount: Accounts;
   createAccountAndUser: Users;
   createBlock: Blocks;
+  createLike: Likes;
   createReport: Reports;
   createUser: Users;
   createUserSearchFilters: UserSearchFilters;
@@ -68,6 +77,11 @@ export type MutationCreateAccountAndUserArgs = {
 
 export type MutationCreateBlockArgs = {
   input?: InputMaybe<NewBlocks>;
+};
+
+
+export type MutationCreateLikeArgs = {
+  input?: InputMaybe<NewLikes>;
 };
 
 
@@ -121,6 +135,10 @@ export type NewBlocks = {
   blocking: Scalars['Int'];
 };
 
+export type NewLikes = {
+  receive_user_id: Scalars['Int'];
+};
+
 export type NewLogin = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -160,10 +178,10 @@ export type Query = {
   account: Accounts;
   block: Blocks;
   blocks: Array<Blocks>;
-  me: Users;
+  me: ResponseUsers;
   report: Reports;
   reports: Array<Reports>;
-  user: Users;
+  user: ResponseUsers;
   user_search_filters: UserSearchFilters;
   users: UserConnection;
   verify_email: VerifyEmails;
@@ -208,6 +226,83 @@ export type Reports = {
   reporter_id: Scalars['Int'];
 };
 
+export type ResponseUserProfiles = {
+  __typename?: 'ResponseUserProfiles';
+  annual_income: Scalars['String'];
+  annual_income_id: Scalars['Int'];
+  blood_type: Scalars['String'];
+  blood_type_id: Scalars['Int'];
+  body_type: Scalars['String'];
+  body_type_id: Scalars['Int'];
+  dating_expenses: Scalars['String'];
+  dating_expenses_id: Scalars['Int'];
+  days_off: Scalars['String'];
+  days_off_id: Scalars['Int'];
+  desire_for_children: Scalars['String'];
+  desire_for_children_id: Scalars['Int'];
+  drinking: Scalars['String'];
+  drinking_id: Scalars['Int'];
+  education: Scalars['String'];
+  education_id: Scalars['Int'];
+  height: Scalars['String'];
+  height_id: Scalars['Int'];
+  hobbies: Scalars['String'];
+  hobbies_id: Scalars['Int'];
+  hometown_country: Scalars['String'];
+  hometown_country_id: Scalars['Int'];
+  hometown_state: Scalars['String'];
+  hometown_state_id: Scalars['Int'];
+  household_chores_and_child_rearing: Scalars['String'];
+  household_chores_and_child_rearing_id: Scalars['Int'];
+  indeal_first_encointer: Scalars['String'];
+  indeal_first_encointer_id: Scalars['Int'];
+  intentions_towards_marriage: Scalars['String'];
+  intentions_towards_marriage_id: Scalars['Int'];
+  interests: Scalars['String'];
+  interests_id: Scalars['Int'];
+  introduction: Scalars['String'];
+  job_title: Scalars['String'];
+  language?: Maybe<Scalars['String']>;
+  language_id: Scalars['Int'];
+  looking_for: Scalars['String'];
+  looking_for_id: Scalars['Int'];
+  marital_history: Scalars['String'];
+  marital_history_id: Scalars['Int'];
+  occupation: Scalars['String'];
+  occupation_id: Scalars['Int'];
+  presence_of_children: Scalars['String'];
+  presence_of_children_id: Scalars['Int'];
+  presonality_type: Scalars['String'];
+  presonality_type_id: Scalars['Int'];
+  residence_country: Scalars['String'];
+  residence_country_id: Scalars['Int'];
+  residence_state: Scalars['String'];
+  residence_state_id: Scalars['Int'];
+  roommates: Scalars['String'];
+  roommates_id: Scalars['Int'];
+  school_name: Scalars['String'];
+  siblings: Scalars['String'];
+  siblings_id: Scalars['Int'];
+  smoking: Scalars['String'];
+  smoking_id: Scalars['Int'];
+  sociability: Scalars['String'];
+  sociability_id: Scalars['Int'];
+  user_id: Scalars['Int'];
+};
+
+export type ResponseUsers = {
+  __typename?: 'ResponseUsers';
+  age: Scalars['Int'];
+  display_name: Scalars['String'];
+  gender: Scalars['String'];
+  id: Scalars['ID'];
+  is_liked?: Maybe<Scalars['Boolean']>;
+  location: Scalars['String'];
+  screen_name: Scalars['String'];
+  user_profile: ResponseUserProfiles;
+  uuid: Scalars['String'];
+};
+
 export type UpdateAccounts = {
   email: Scalars['String'];
   id: Scalars['Int'];
@@ -246,15 +341,41 @@ export type UserConnection = {
 export type UserEdge = {
   __typename?: 'UserEdge';
   cursor: Scalars['String'];
-  node: Users;
+  node: ResponseUsers;
 };
 
 export type UserProfiles = {
   __typename?: 'UserProfiles';
+  annual_income_id: Scalars['Int'];
+  blood_type_id: Scalars['Int'];
+  body_type_id: Scalars['Int'];
+  dating_expenses_id: Scalars['Int'];
+  days_off_id: Scalars['Int'];
+  desire_for_children_id: Scalars['Int'];
+  drinking_id: Scalars['Int'];
+  education_id: Scalars['Int'];
+  height_id: Scalars['Int'];
+  hobbies_id: Scalars['Int'];
+  hometown_id: Scalars['Int'];
+  household_chores_and_child_rearing_id: Scalars['Int'];
   id: Scalars['ID'];
-  interests: Scalars['String'];
+  indeal_first_encointer_id: Scalars['Int'];
+  intentions_towards_marriage_id: Scalars['Int'];
+  interests_id: Scalars['Int'];
   introduction: Scalars['String'];
-  looking_for: Scalars['String'];
+  job_title: Scalars['String'];
+  language_id: Scalars['Int'];
+  looking_for_id: Scalars['Int'];
+  marital_history_id: Scalars['Int'];
+  occupation_id: Scalars['Int'];
+  presence_of_children_id: Scalars['Int'];
+  presonality_type_id: Scalars['Int'];
+  residence_id: Scalars['Int'];
+  roommates_id: Scalars['Int'];
+  school_name: Scalars['String'];
+  siblings_id: Scalars['Int'];
+  smoking_id: Scalars['Int'];
+  sociability_id: Scalars['Int'];
   user_id: Scalars['Int'];
 };
 
@@ -352,6 +473,13 @@ export type UpdateUserSearchFiltersMutationVariables = Exact<{
 
 export type UpdateUserSearchFiltersMutation = { __typename?: 'Mutation', updateUserSearchFilters: { __typename?: 'UserSearchFilters', gender: string, location?: string | null } };
 
+export type CreateLikeMutationVariables = Exact<{
+  like?: InputMaybe<NewLikes>;
+}>;
+
+
+export type CreateLikeMutation = { __typename?: 'Mutation', createLike: { __typename?: 'Likes', send_user_id: number, receive_user_id: number } };
+
 export type AccountsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -362,7 +490,7 @@ export type AccountsQuery = { __typename?: 'Query', account: { __typename?: 'Acc
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Users', id: string, display_name: string, gender: string, location: string } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'ResponseUsers', id: string, display_name: string, gender: string, location: string } };
 
 export type UsersQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -370,14 +498,14 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserConnection', edges: Array<{ __typename?: 'UserEdge', cursor: string, node: { __typename?: 'Users', id: string, uuid: string, display_name: string, screen_name: string, gender: string } }>, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean, start_cursor?: string | null, end_cursor?: string | null } } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserConnection', edges: Array<{ __typename?: 'UserEdge', cursor: string, node: { __typename?: 'ResponseUsers', id: string, display_name: string, screen_name: string, gender: string } }>, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean, start_cursor?: string | null, end_cursor?: string | null } } };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'Users', id: string, uuid: string, display_name: string } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUsers', id: string, uuid: string, display_name: string, age: number, is_liked?: boolean | null, user_profile: { __typename?: 'ResponseUserProfiles', user_id: number, height_id: number, height: string, body_type: string, blood_type: string, residence_country: string, residence_state: string, hometown_country: string, hometown_state: string, occupation: string, education: string, annual_income: string, smoking: string, drinking: string } } };
 
 export type UserSearchFiltersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -707,6 +835,40 @@ export function useUpdateUserSearchFiltersMutation(baseOptions?: Apollo.Mutation
 export type UpdateUserSearchFiltersMutationHookResult = ReturnType<typeof useUpdateUserSearchFiltersMutation>;
 export type UpdateUserSearchFiltersMutationResult = Apollo.MutationResult<UpdateUserSearchFiltersMutation>;
 export type UpdateUserSearchFiltersMutationOptions = Apollo.BaseMutationOptions<UpdateUserSearchFiltersMutation, UpdateUserSearchFiltersMutationVariables>;
+export const CreateLikeDocument = gql`
+    mutation CreateLike($like: NewLikes) {
+  createLike(input: $like) {
+    send_user_id
+    receive_user_id
+  }
+}
+    `;
+export type CreateLikeMutationFn = Apollo.MutationFunction<CreateLikeMutation, CreateLikeMutationVariables>;
+
+/**
+ * __useCreateLikeMutation__
+ *
+ * To run a mutation, you first call `useCreateLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createLikeMutation, { data, loading, error }] = useCreateLikeMutation({
+ *   variables: {
+ *      like: // value for 'like'
+ *   },
+ * });
+ */
+export function useCreateLikeMutation(baseOptions?: Apollo.MutationHookOptions<CreateLikeMutation, CreateLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(CreateLikeDocument, options);
+      }
+export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
+export type CreateLikeMutationResult = Apollo.MutationResult<CreateLikeMutation>;
+export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
 export const AccountsDocument = gql`
     query accounts($id: ID!) {
   account(id: $id) {
@@ -788,7 +950,6 @@ export const UsersDocument = gql`
       cursor
       node {
         id
-        uuid
         display_name
         screen_name
         gender
@@ -838,6 +999,24 @@ export const UserDocument = gql`
     id
     uuid
     display_name
+    age
+    is_liked
+    user_profile {
+      user_id
+      height_id
+      height
+      body_type
+      blood_type
+      residence_country
+      residence_state
+      hometown_country
+      hometown_state
+      occupation
+      education
+      annual_income
+      smoking
+      drinking
+    }
   }
 }
     `;

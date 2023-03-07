@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from "@apollo/client/link/error";
 import { parseCookies, setCookie } from 'nookies'
+import { useRouter } from 'next/router';
 
 const httpLink = createHttpLink({
 	uri: "http://localhost:8080/graphql",
@@ -30,7 +31,7 @@ const tokenLink = new ApolloLink((operation, forward) => {
 			const jwtToken = context.response.headers.get('authorization')
 			if (jwtToken) {
 				setCookie(null, 'JWT_TOKEN', jwtToken, {
-					maxAge: 1 * 24 * 60 * 60, // 30 days
+					maxAge: 1 * 60 * 60, // 30 days
 					path: '/',
 				})
 			}
@@ -41,13 +42,17 @@ const tokenLink = new ApolloLink((operation, forward) => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors)
-	  graphQLErrors.forEach(({ message, locations, path }) =>
+	  graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+		if (extensions?.code == 401) {
+			// need refresh token
+			// router.push('/signin')
+		}
 		console.log(
-		  `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+			`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
 		)
-	  );
+		});
 	if (networkError) console.log(`[Network error]: ${networkError}`);
-  });
+});
 
 const link = ApolloLink.from([
 	authLink,

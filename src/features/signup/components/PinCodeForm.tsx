@@ -63,11 +63,11 @@ export const PinCodeForm: React.FC<Props> = ({ handleConfirmPinCode }) => {
 		try {
 			refetch({ code: c })
 			console.log(data, error)
-			if (data && !error) {
-				handleConfirmPinCode()
-			}
 		} catch {
 			console.log(error)
+		}
+		if (data && !error) {
+			handleConfirmPinCode()
 		}
 	}
 	

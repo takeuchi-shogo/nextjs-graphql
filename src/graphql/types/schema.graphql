@@ -17,6 +17,13 @@ type Accounts {
   access_level: String!
 }
 
+type Likes {
+  id: ID!
+  send_user_id: Int!
+  receive_user_id: Int!
+  created_at: Int!
+}
+
 type Users {
   id: ID!
   uuid: String!
@@ -52,7 +59,7 @@ type UserConnection {
 
 type UserEdge {
   cursor: String!
-  node: Users!
+  node: ResponseUsers!
 }
 
 type UserSearchFilters {
@@ -103,9 +110,14 @@ input NewLogin {
   password: String!
 }
 
+input NewLikes {
+  receive_user_id: Int!
+}
+
 type Mutation {
   createAccount(input: NewAccounts): Accounts!
   createAccountAndUser(account: NewAccounts, user: NewUsers): Users!
+  createLike(input: NewLikes): Likes!
   createUser(input: NewUsers): Users!
   createVerifyEmail(input: NewVerifyEmails): VerifyEmails!
   Login(input: NewLogin!): Users!

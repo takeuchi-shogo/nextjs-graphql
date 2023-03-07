@@ -93,7 +93,6 @@ export const SignupForm:React.FC = () => {
 	}
 
 	const handleCreateAccount = (displayNameInput: string) => {
-		console.log(displayNameInput)
 		setDisplayName(displayNameInput)
 		showPasswordForm()
 	}

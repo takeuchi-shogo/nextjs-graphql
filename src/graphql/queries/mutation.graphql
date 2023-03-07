@@ -69,3 +69,10 @@ mutation UpdateUserSearchFilters($filter: UpdateUserSearchFilters) {
 		location
 	}
 }
+
+mutation CreateLike($like: NewLikes) {
+	createLike(input: $like) {
+		send_user_id
+		receive_user_id
+	}
+}

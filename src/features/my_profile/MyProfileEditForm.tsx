@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react"
 import { useMeQuery } from "../../graphql/graphql"
 import { Alert } from "../../components/ui/Alert"
+import { Button } from "../../components/ui/Button"
 
 export const MyProfileEditForm: React.FC = () => {
 	
@@ -28,7 +29,7 @@ export const MyProfileEditForm: React.FC = () => {
 	return (
 		<form>
 			<div>
-				<div>
+				<div className="pt-3">
 					<div className="relative z-0 w-full mb-6 group">
 						<input
 							type="email"
@@ -94,7 +95,9 @@ export const MyProfileEditForm: React.FC = () => {
 						</label>
 					</div>
 				</div>
-				<button type="button" onClick={ save }>保存</button>
+				<Button variant="primary" size="md" onClick={ save }>
+					保存する
+				</Button>
 			</div>
 		</form>
 	)

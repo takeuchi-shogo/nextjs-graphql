@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Alert } from "../../components/ui/Alert"
+import { Button } from "../../components/ui/Button"
 
 export const MyAccountEditForm = () => {
 
@@ -31,9 +32,9 @@ export const MyAccountEditForm = () => {
 	}
 
 	return (
-		<form>
+		<form className="w-full">
 			<div>
-				<div>
+				<div className="pt-3">
 					<div className="relative z-0 w-full mb-6 group">
 						<input
 							type="tel"
@@ -86,7 +87,7 @@ export const MyAccountEditForm = () => {
 						</label>
 					</div>
 				</div>
-				<button type="button" onClick={ saveAccount }>保存</button>
+				<Button variant="primary" size="md" onClick={ saveAccount }>保存する</Button>
 			</div>
 		</form>
 	)
