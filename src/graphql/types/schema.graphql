@@ -31,6 +31,7 @@ type Users {
   display_name: String!
   screen_name: String!
   gender: String!
+  age: Int!
   location: String!
   is_authorize_email: Boolean!
   is_verified_email: Boolean!
@@ -66,6 +67,20 @@ type UserSearchFilters {
   # age: Int
   gender: String
   location: String
+  purpose: Int!
+  has_introduction: Boolean
+  # height_id: Int
+  body_type_id: Int!
+  blood_type_id: Int!
+  # residence_country_id: Int
+  # residence_state_id: Int
+  # hometown_country_id: Int
+  # hometown_state_id: Int
+  occupation_id: Int!
+  education_id: Int!
+  annual_income_id: Int!
+  smoking_id: Int!
+  drinking_id: Int!
 }
 
 type VerifyEmails {
@@ -90,6 +105,13 @@ input NewUsers {
   location: String!
 }
 
+input UpdateUsers {
+  display_name: String!
+  gender: String!
+  age: Int!
+  location: String!
+}
+
 input NewUserSearchFilters {
   gender: String
   location: String
@@ -99,6 +121,59 @@ input UpdateUserSearchFilters {
   id: ID!
   gender: String
   location: String
+  purpose: Int!
+  has_introduction: Boolean!
+  height_id: Int!
+  body_type_id: Int!
+  blood_type_id: Int!
+  # residence_country_id: Int!
+  # residence_state_id: Int!
+  # hometown_country_id: Int!
+  # hometown_state_id: Int!
+  occupation_id: Int!
+  education_id: Int!
+  annual_income_id: Int!
+  smoking_id: Int!
+  drinking_id: Int!
+}
+
+input UpdateUserProfiles {
+  id: ID!
+  # user_id: Int!
+	# introduction: String!
+
+	# height_id: Int!
+	body_type_id: Int!
+	blood_type_id: Int!
+	residence_id: Int!
+	hometown_id: Int!
+	occupation_id: Int!
+	education_id: Int!
+	annual_income_id: Int!
+	smoking_id: Int!
+	drinking_id: Int!
+
+	# siblings_id: Int!
+	# language_id: Int!
+	# interests_id: Int!
+	# looking_for_id: Int!
+
+	# school_name: String!
+	# job_title: String!
+
+	# marital_history_id: Int!
+	# presence_of_children_id: Int!
+	# intentions_towards_marriage_id: Int!
+	# desire_for_children_id: Int!
+	# household_chores_and_child_rearing_id: Int!
+	# indeal_first_encointer_id: Int!
+	# dating_expenses_id: Int!
+
+	# presonality_type_id: Int!
+	# sociability_id: Int!
+	# roommates_id: Int!
+	# days_off_id: Int!
+	# hobbies_id: Int!
 }
 
 input NewVerifyEmails {
@@ -126,5 +201,7 @@ type Mutation {
   updateUserSearchFilters(input: UpdateUserSearchFilters): UserSearchFilters!
 
   updateAccount(input: NewAccounts!): NewAccounts!
-  updateUser(input: NewUsers!): Users!
+  updateUser(input: UpdateUsers!): Users!
+
+  updateUserProfile(input: UpdateUserProfiles!): UserProfiles!
 }

@@ -59,6 +59,7 @@ mutation UpdateUser($user: UpdateUsers!) {
 	updateUser(input: $user) {
 		display_name
 		gender
+		age
 		location
 	}
 }
@@ -74,5 +75,12 @@ mutation CreateLike($like: NewLikes) {
 	createLike(input: $like) {
 		send_user_id
 		receive_user_id
+	}
+}
+
+
+mutation UpdateUserProfile($profile: UpdateUserProfiles) {
+	updateUserProfile(input: $profile) {
+		body_type_id
 	}
 }

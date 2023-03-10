@@ -7,8 +7,13 @@ import { SideNavigationContainer } from "../../components/layout/SideNavigationC
 import { MainLayout } from "../../components/layout/MainLayout"
 import { PrivateLayoutGuard } from "../../components/layout/PrivateLayoutGuard"
 import { PrivateLayout } from "../../components/layout/PrivateLayout"
+import { MyBasicProfileForm } from "../../features/my_profile/components/MyBasicProfileForm"
+import { useMeQuery } from "../../graphql/graphql"
 
 const MyProfile: NextPage = () => {
+
+	const { data, loading, error } = useMeQuery()
+
 	return (
 		<div>
 			<Head>
@@ -21,8 +26,21 @@ const MyProfile: NextPage = () => {
 					<PrivateLayout>
 						<SideNavigationContainer/>
 						<MyProfileLayout>
-							<MyProfileEditForm />
-							{/* <MyAccountEditForm /> */}
+							{ loading && (<p>Loading ....</p>)}
+							{ data && (
+								<>
+									<MyProfileEditForm me={ data.me } />
+									<MyBasicProfileForm
+										body_type_id={ data.me.user_profile.body_type_id }
+										blood_type_id={ data.me.user_profile.blood_type_id }
+										occupation_id={ data.me.user_profile.occupation_id }
+										education_id={ data.me.user_profile.education_id }
+										annual_income_id={ data.me.user_profile.annual_income_id }
+										smoking_id={ data.me.user_profile.smoking_id }
+										drinking_id={ data.me.user_profile.drinking_id }
+									/>
+								</>
+							)}
 						</MyProfileLayout>
 					</PrivateLayout>
 				</PrivateLayoutGuard>

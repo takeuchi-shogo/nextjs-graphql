@@ -60,6 +60,7 @@ export type Mutation = {
   login: Users;
   updateAccount: Accounts;
   updateUser: Users;
+  updateUserProfile: UserProfiles;
   updateUserSearchFilters: UserSearchFilters;
 };
 
@@ -117,6 +118,11 @@ export type MutationUpdateAccountArgs = {
 
 export type MutationUpdateUserArgs = {
   input?: InputMaybe<UpdateUsers>;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input?: InputMaybe<UpdateUserProfiles>;
 };
 
 
@@ -311,25 +317,31 @@ export type UpdateAccounts = {
 };
 
 export type UpdateUserProfiles = {
+  body_type_id: Scalars['Int'];
   id: Scalars['ID'];
-  interests: Scalars['String'];
-  introduction: Scalars['String'];
-  looking_for: Scalars['String'];
-  user_id: Scalars['Int'];
 };
 
 export type UpdateUserSearchFilters = {
+  annual_income_id: Scalars['Int'];
+  blood_type_id: Scalars['Int'];
+  body_type_id: Scalars['Int'];
+  drinking_id: Scalars['Int'];
+  education_id: Scalars['Int'];
   gender?: InputMaybe<Scalars['String']>;
+  has_introduction: Scalars['Boolean'];
+  height_id: Scalars['Int'];
   id: Scalars['ID'];
   location?: InputMaybe<Scalars['String']>;
+  occupation_id: Scalars['Int'];
+  purpose: Scalars['Int'];
+  smoking_id: Scalars['Int'];
 };
 
 export type UpdateUsers = {
+  age: Scalars['Int'];
   display_name: Scalars['String'];
   gender: Scalars['String'];
-  id: Scalars['Int'];
   location: Scalars['String'];
-  screen_name: Scalars['String'];
 };
 
 export type UserConnection = {
@@ -381,15 +393,26 @@ export type UserProfiles = {
 
 export type UserSearchFilters = {
   __typename?: 'UserSearchFilters';
+  annual_income_id: Scalars['Int'];
+  blood_type_id: Scalars['Int'];
+  body_type_id: Scalars['Int'];
+  drinking_id: Scalars['Int'];
+  education_id: Scalars['Int'];
   gender: Scalars['String'];
+  has_introduction: Scalars['Boolean'];
+  height_id: Scalars['Int'];
   id: Scalars['ID'];
   location?: Maybe<Scalars['String']>;
+  occupation_id: Scalars['Int'];
+  purpose: Scalars['Int'];
+  smoking_id: Scalars['Int'];
   user_id: Scalars['Int'];
 };
 
 export type Users = {
   __typename?: 'Users';
   account_id: Scalars['Int'];
+  age: Scalars['Int'];
   display_name: Scalars['String'];
   gender: Scalars['String'];
   id: Scalars['ID'];
@@ -464,7 +487,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'Users', display_name: string, gender: string, location: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'Users', display_name: string, gender: string, age: number, location: string } };
 
 export type UpdateUserSearchFiltersMutationVariables = Exact<{
   filter?: InputMaybe<UpdateUserSearchFilters>;
@@ -480,6 +503,13 @@ export type CreateLikeMutationVariables = Exact<{
 
 export type CreateLikeMutation = { __typename?: 'Mutation', createLike: { __typename?: 'Likes', send_user_id: number, receive_user_id: number } };
 
+export type UpdateUserProfileMutationVariables = Exact<{
+  profile?: InputMaybe<UpdateUserProfiles>;
+}>;
+
+
+export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'UserProfiles', body_type_id: number } };
+
 export type AccountsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -490,7 +520,7 @@ export type AccountsQuery = { __typename?: 'Query', account: { __typename?: 'Acc
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'ResponseUsers', id: string, display_name: string, gender: string, location: string } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'ResponseUsers', id: string, display_name: string, gender: string, age: number, location: string, user_profile: { __typename?: 'ResponseUserProfiles', height_id: number, body_type_id: number, blood_type_id: number, residence_state_id: number, hometown_state: string, occupation_id: number, education_id: number, annual_income_id: number, smoking_id: number, drinking_id: number } } };
 
 export type UsersQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -510,7 +540,7 @@ export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUs
 export type UserSearchFiltersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserSearchFiltersQuery = { __typename?: 'Query', user_search_filters: { __typename?: 'UserSearchFilters', id: string, gender: string, location?: string | null } };
+export type UserSearchFiltersQuery = { __typename?: 'Query', user_search_filters: { __typename?: 'UserSearchFilters', id: string, gender: string, location?: string | null, purpose: number, has_introduction: boolean, height_id: number, body_type_id: number, blood_type_id: number, occupation_id: number, education_id: number, annual_income_id: number, smoking_id: number, drinking_id: number } };
 
 export type GetVerifyEmailByPinCodeQueryVariables = Exact<{
   code: Scalars['String'];
@@ -771,6 +801,7 @@ export const UpdateUserDocument = gql`
   updateUser(input: $user) {
     display_name
     gender
+    age
     location
   }
 }
@@ -869,6 +900,39 @@ export function useCreateLikeMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
 export type CreateLikeMutationResult = Apollo.MutationResult<CreateLikeMutation>;
 export type CreateLikeMutationOptions = Apollo.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
+export const UpdateUserProfileDocument = gql`
+    mutation UpdateUserProfile($profile: UpdateUserProfiles) {
+  updateUserProfile(input: $profile) {
+    body_type_id
+  }
+}
+    `;
+export type UpdateUserProfileMutationFn = Apollo.MutationFunction<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
+
+/**
+ * __useUpdateUserProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserProfileMutation, { data, loading, error }] = useUpdateUserProfileMutation({
+ *   variables: {
+ *      profile: // value for 'profile'
+ *   },
+ * });
+ */
+export function useUpdateUserProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>(UpdateUserProfileDocument, options);
+      }
+export type UpdateUserProfileMutationHookResult = ReturnType<typeof useUpdateUserProfileMutation>;
+export type UpdateUserProfileMutationResult = Apollo.MutationResult<UpdateUserProfileMutation>;
+export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
 export const AccountsDocument = gql`
     query accounts($id: ID!) {
   account(id: $id) {
@@ -912,7 +976,20 @@ export const MeDocument = gql`
     id
     display_name
     gender
+    age
     location
+    user_profile {
+      height_id
+      body_type_id
+      blood_type_id
+      residence_state_id
+      hometown_state
+      occupation_id
+      education_id
+      annual_income_id
+      smoking_id
+      drinking_id
+    }
   }
 }
     `;
@@ -1054,6 +1131,16 @@ export const UserSearchFiltersDocument = gql`
     id
     gender
     location
+    purpose
+    has_introduction
+    height_id
+    body_type_id
+    blood_type_id
+    occupation_id
+    education_id
+    annual_income_id
+    smoking_id
+    drinking_id
   }
 }
     `;

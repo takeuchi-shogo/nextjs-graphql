@@ -11,7 +11,20 @@ query me {
 		id
 		display_name
 		gender
+		age
 		location
+		user_profile {
+			height_id
+			body_type_id
+			blood_type_id
+			residence_state_id
+			hometown_state
+			occupation_id
+			education_id
+			annual_income_id
+			smoking_id
+			drinking_id
+		}
 	}
 }
 
@@ -67,6 +80,20 @@ query UserSearchFilters {
 		id
 		gender
 		location
+		purpose
+		has_introduction
+		height_id
+		body_type_id
+		blood_type_id
+		# residence_country_id
+		# residence_state_id
+		# hometown_country_id
+		# hometown_state_id
+		occupation_id
+		education_id
+		annual_income_id
+		smoking_id
+		drinking_id
 	}
 }
 
