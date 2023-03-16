@@ -11,9 +11,9 @@ import { UserLists } from "../../features/users/components/UserLists";
 const UsersPage: NextPage = () => {
 	const { data, loading, error } = useUsersQuery({
 		variables: {
-			first: 10,
+			first: 30,
 			after: "",
-		  }
+		}
 	})
 
 	// if (loading) return <p>Now Loading .....</p>

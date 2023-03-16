@@ -1,6 +1,6 @@
 type ResponseUserProfiles {
 	user_id: Int!
-	introduction: String!
+	introduction: String
 
 	height_id: Int!
 	height: String!

@@ -1,4 +1,5 @@
 import { UserProfileItemHeader } from "./ui/UserProfileItemHeader"
+import { UserProfileItemLayout } from "./ui/UserProfileItemLayout"
 
 interface Props {
 	marital_history: string | undefined
@@ -20,10 +21,10 @@ export const UserAttitudeTowardsLoveAndMarriage: React.FC<Props> = ({
 	dating_exprnses,
 }) => {
 	return (
-		<>
+		<UserProfileItemLayout>
 			<UserProfileItemHeader>
 				恋愛、結婚観について
 			</UserProfileItemHeader>
-		</>
+		</UserProfileItemLayout>
 	)
 }

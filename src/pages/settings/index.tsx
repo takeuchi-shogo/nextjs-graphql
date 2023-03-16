@@ -4,6 +4,8 @@ import { MainLayout } from "../../components/layout/MainLayout";
 import { PrivateLayoutGuard } from "../../components/layout/PrivateLayoutGuard";
 import { PrivateLayout } from "../../components/layout/PrivateLayout";
 import { SideNavigationContainer } from "../../components/layout/SideNavigationContainer";
+import { SettingMenuBar } from "../../features/settings/ui/SettingMenuBar";
+import { PrivateContents } from "../../components/layout/PrivateContents";
 
 const Settings: NextPage = () => {
 	return (
@@ -17,7 +19,10 @@ const Settings: NextPage = () => {
 				<PrivateLayoutGuard>
 					<PrivateLayout>
 						<SideNavigationContainer/>
-						<h1>設定ページ</h1>
+						<PrivateContents>
+							<SettingMenuBar />
+							<h1>設定ページ</h1>
+						</PrivateContents>
 					</PrivateLayout>
 				</PrivateLayoutGuard>
 			</MainLayout>

@@ -1,4 +1,5 @@
 import { UserProfileItemHeader } from "./ui/UserProfileItemHeader"
+import { UserProfileItemLayout } from "./ui/UserProfileItemLayout"
 
 interface Props {
 	personality_type: string | undefined
@@ -16,10 +17,10 @@ export const UserPersonalityAndLifestyleAndHobbies: React.FC<Props> = ({
 	hobbies,
 }) => {
 	return (
-		<>
+		<UserProfileItemLayout>
 			<UserProfileItemHeader>
 				性格、生活、趣味
 			</UserProfileItemHeader>
-		</>
+		</UserProfileItemLayout>
 	)
 }

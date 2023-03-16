@@ -1,5 +1,6 @@
-import { UserProfileItem } from "./UserProfileItem"
+import { UserProfileItem } from "./ui/UserProfileItem"
 import { UserProfileItemHeader } from "./ui/UserProfileItemHeader"
+import { UserProfileItemLayout } from "./ui/UserProfileItemLayout"
 
 interface Props {
 	height: string | undefined
@@ -27,7 +28,7 @@ export const UserBasicProfile: React.FC<Props> = ({
 	drinking,
 }) => {
 	return (
-		<>
+		<UserProfileItemLayout>
 			<UserProfileItemHeader>
 				基本情報
 			</UserProfileItemHeader>
@@ -73,6 +74,6 @@ export const UserBasicProfile: React.FC<Props> = ({
 					value={ drinking }
 				/>
 			</div>
-		</>
+		</UserProfileItemLayout>
 	)
 }

@@ -10,7 +10,7 @@ interface Props {
 export const FloatingInput: React.FC<Props> = ({ label, id, type, value, onChangeEvent }) => {
 	return (
 		<>
-			<div className="relative z-0 w-full mb-6 group">
+			<div className="relative z-0 w-full group">
 				<input
 					type={ type }
 					name={ id }

@@ -25,7 +25,7 @@ export const UserLikeButton: React.FC<Props> = ({ id, is_like }) => {
 		<>
 			<Button
 				variant="primary"
-				size="md"
+				size="full"
 				onClick={ handleClick }
 			>
 				{is_like ? 'いいね済み' : 'いいね　♡' }

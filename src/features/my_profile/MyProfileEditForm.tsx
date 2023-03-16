@@ -56,6 +56,9 @@ export const MyProfileEditForm: React.FC<Props> = ({
 	return (
 		<form>
 			<div>
+				<div className="py-2">
+					<h2 className="text-zinc-800 font-bold">ユーザー情報</h2>
+				</div>
 				<div className="pt-3">
 					<div className="relative z-0 w-full mb-6 group">
 						<input
@@ -94,13 +97,15 @@ export const MyProfileEditForm: React.FC<Props> = ({
 							Gender
 						</label>
 					</div>
-					<FloatingInput
-						label={ '年齢' }
-						id={ 'age' }
-						type={ 'tel' }
-						value={ age }
-						onChangeEvent={ onChangeAge }
-					/>
+					<div className="mb-6">
+						<FloatingInput
+							label={ '年齢' }
+							id={ 'age' }
+							type={ 'tel' }
+							value={ age }
+							onChangeEvent={ onChangeAge }
+						/>
+					</div>
 					<div className="relative z-0 w-full mb-6 group">
 						<input
 							type="text"

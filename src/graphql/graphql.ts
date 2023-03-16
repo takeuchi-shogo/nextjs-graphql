@@ -266,7 +266,7 @@ export type ResponseUserProfiles = {
   intentions_towards_marriage_id: Scalars['Int'];
   interests: Scalars['String'];
   interests_id: Scalars['Int'];
-  introduction: Scalars['String'];
+  introduction?: Maybe<Scalars['String']>;
   job_title: Scalars['String'];
   language?: Maybe<Scalars['String']>;
   language_id: Scalars['Int'];
@@ -528,7 +528,7 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserConnection', edges: Array<{ __typename?: 'UserEdge', cursor: string, node: { __typename?: 'ResponseUsers', id: string, display_name: string, screen_name: string, gender: string } }>, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean, start_cursor?: string | null, end_cursor?: string | null } } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserConnection', edges: Array<{ __typename?: 'UserEdge', cursor: string, node: { __typename?: 'ResponseUsers', id: string, display_name: string, screen_name: string, age: number, gender: string, user_profile: { __typename?: 'ResponseUserProfiles', introduction?: string | null, residence_country: string, residence_state: string } } }>, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean, start_cursor?: string | null, end_cursor?: string | null } } };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1029,7 +1029,13 @@ export const UsersDocument = gql`
         id
         display_name
         screen_name
+        age
         gender
+        user_profile {
+          introduction
+          residence_country
+          residence_state
+        }
       }
     }
     page_info {

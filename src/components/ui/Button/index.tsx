@@ -1,8 +1,9 @@
 import clsx from 'clsx'
 
 const variants = {
-	primary: 'bg-blue-600 text-white',
-	success: '',
+	primary: 'bg-pink-300 text-white',
+	secondary: 'bg-cyan-600 text-white',
+	success: 'bg-green-700 text-white',
 	danger: 'bg-red-600 text-white',
 	warning: '',
 	info: '',
@@ -11,6 +12,7 @@ const variants = {
 }
 
 const sizes = {
+	full: 'w-full px-4 py-2 text-base',
 	sm: 'px-2 py-1 text-xs',
 	md: 'px-4 py-2 text-base',
 	lg: 'px-4 px-2 text-lg',

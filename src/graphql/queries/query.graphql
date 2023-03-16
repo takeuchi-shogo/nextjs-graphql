@@ -36,7 +36,13 @@ query users($first: Int!, $after: String!) {
 				id
 				display_name
 				screen_name
+				age
 				gender
+				user_profile {
+					introduction
+					residence_country
+					residence_state
+				}
 			}
 		},
 		page_info {

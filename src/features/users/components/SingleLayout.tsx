@@ -2,6 +2,11 @@ import { useUserQuery } from "../../../graphql/graphql"
 import { UserLikeButton } from "./UserLikeButton"
 import { UserBasicProfile } from "./UserBasicProfile"
 import { UserProfileContainer } from "./UserProfileContainer"
+import { UserAttitudeTowardsLoveAndMarriage } from "./UserAttitudeTowardsLoveAndMarriage"
+import { UserEducationAndCareer } from "./UserEducationAndCareer"
+import { UserIntroduction } from "./UserIntroduction"
+import { UserPersonalityAndLifestyleAndHobbies } from "./UserPersonalityAndLifestyleAndHobbies"
+import { Button } from "../../../components/ui/Button"
 
 interface Props {
 	id: string
@@ -17,15 +22,33 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 	if (error) return <p className='font-bold text-3xl'>error</p>
 
 	return (
-		<div>
-			<div className="text-zinc-800">
-				<span className="text-xl font-bold">{ data?.user.display_name }</span>
+		<div className="flex mt-14">
+			<div className="space-y-6">
+				<div className="">
+					<img className="object-cover w-80 h-80 rounded" src="/assets/young-gals.jpg" alt="sample" />
+				</div>
+				<div className="space-y-2">
+					<div className="text-zinc-800">
+						<span className="text-xl font-bold">{ data?.user.display_name }</span>
+					</div>
+					<div className="text-xs">
+						{ data?.user.age }歳
+					</div>
+				</div>
+				<div className="space-y-4">
+					<UserLikeButton id={ id } is_like={ data?.user.is_liked } />
+					<div>
+						<Button
+							variant="secondary"
+							size="full"
+						>
+							メッセージを送信
+						</Button>
+					</div>
+				</div>
 			</div>
-			<div className="text-xs">{ data?.user.age }歳</div>
-
-			<UserLikeButton id={ id } is_like={ data?.user.is_liked } />
-
 			<UserProfileContainer>
+				<UserIntroduction />
 				<UserBasicProfile
 					height={ data?.user.user_profile.height }
 					body_type={ data?.user.user_profile.body_type }
@@ -38,6 +61,9 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 					smoking={ data?.user.user_profile.smoking }
 					drinking={ data?.user.user_profile.drinking }
 				/>
+				{/* <UserEducationAndCareer />
+				<UserAttitudeTowardsLoveAndMarriage />
+				<UserPersonalityAndLifestyleAndHobbies /> */}
 			</UserProfileContainer>
 		</div>
 	)

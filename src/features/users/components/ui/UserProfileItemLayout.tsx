@@ -4,9 +4,9 @@ interface Props {
 	children: ReactNode
 }
 
-export const UserProfileContainer: React.FC<Props> = ({ children }) => {
+export const UserProfileItemLayout: React.FC<Props> = ({ children }) => {
 	return (
-		<div className="space-y-5">
+		<div className="px-6">
 			{ children }
 		</div>
 	)

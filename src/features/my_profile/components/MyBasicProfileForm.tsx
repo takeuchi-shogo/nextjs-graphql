@@ -80,6 +80,9 @@ export const MyBasicProfileForm: React.FC<Props> = ({
 
 	return (
 		<form>
+			<div className="py-2">
+				<h2 className="text-zinc-800 font-bold">基本情報</h2>
+			</div>
 			<div className="pt-3">
 				<div className="">
 					<FloatingSelect

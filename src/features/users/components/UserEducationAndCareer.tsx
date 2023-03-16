@@ -1,4 +1,5 @@
 import { UserProfileItemHeader } from "./ui/UserProfileItemHeader"
+import { UserProfileItemLayout } from "./ui/UserProfileItemLayout"
 
 interface Props {
 	school_name: string | undefined
@@ -10,10 +11,10 @@ export const UserEducationAndCareer: React.FC<Props> = ({
 	job_title,
 }) => {
 	return (
-		<>
+		<UserProfileItemLayout>
 			<UserProfileItemHeader>
 				学歴、職歴
 			</UserProfileItemHeader>
-		</>
+		</UserProfileItemLayout>
 	)
 }
