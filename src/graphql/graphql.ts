@@ -28,6 +28,7 @@ export type Accounts = {
 export type Blocks = {
   __typename?: 'Blocks';
   blocked: Scalars['Int'];
+  blocked_user?: Maybe<Users>;
   blocking: Scalars['Int'];
   id: Scalars['ID'];
 };
@@ -54,11 +55,13 @@ export type Mutation = {
   createBlock: Blocks;
   createLike: Likes;
   createReport: Reports;
+  createResetPassword: ResetPasswords;
   createUser: Users;
   createUserSearchFilters: UserSearchFilters;
   createVerifyEmail: VerifyEmails;
   login: Users;
   updateAccount: Accounts;
+  updateResetPassword: Users;
   updateUser: Users;
   updateUserProfile: UserProfiles;
   updateUserSearchFilters: UserSearchFilters;
@@ -91,6 +94,11 @@ export type MutationCreateReportArgs = {
 };
 
 
+export type MutationCreateResetPasswordArgs = {
+  email: Scalars['String'];
+};
+
+
 export type MutationCreateUserArgs = {
   input?: InputMaybe<NewUsers>;
 };
@@ -102,17 +110,24 @@ export type MutationCreateUserSearchFiltersArgs = {
 
 
 export type MutationCreateVerifyEmailArgs = {
-  input?: InputMaybe<NewVerifyEmails>;
+  email: Scalars['String'];
 };
 
 
 export type MutationLoginArgs = {
-  input?: InputMaybe<NewLogin>;
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
 export type MutationUpdateAccountArgs = {
   input?: InputMaybe<UpdateAccounts>;
+};
+
+
+export type MutationUpdateResetPasswordArgs = {
+  password: Scalars['String'];
+  reset_key: Scalars['String'];
 };
 
 
@@ -169,6 +184,8 @@ export type NewUsers = {
 
 export type NewVerifyEmails = {
   email: Scalars['String'];
+  pin_code: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type PageInfo = {
@@ -187,6 +204,7 @@ export type Query = {
   me: ResponseUsers;
   report: Reports;
   reports: Array<Reports>;
+  reset_password: ResetPasswords;
   user: ResponseUsers;
   user_search_filters: UserSearchFilters;
   users: UserConnection;
@@ -206,6 +224,11 @@ export type QueryBlockArgs = {
 
 export type QueryReportArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryReset_PasswordArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -232,6 +255,15 @@ export type Reports = {
   reporter_id: Scalars['Int'];
 };
 
+export type ResetPasswords = {
+  __typename?: 'ResetPasswords';
+  expire_at: Scalars['Int'];
+  id: Scalars['ID'];
+  reset_key: Scalars['String'];
+  token: Scalars['String'];
+  user_id: Scalars['Int'];
+};
+
 export type ResponseUserProfiles = {
   __typename?: 'ResponseUserProfiles';
   annual_income: Scalars['String'];
@@ -250,8 +282,7 @@ export type ResponseUserProfiles = {
   drinking_id: Scalars['Int'];
   education: Scalars['String'];
   education_id: Scalars['Int'];
-  height: Scalars['String'];
-  height_id: Scalars['Int'];
+  height: Scalars['Int'];
   hobbies: Scalars['String'];
   hobbies_id: Scalars['Int'];
   hometown_country: Scalars['String'];
@@ -260,8 +291,6 @@ export type ResponseUserProfiles = {
   hometown_state_id: Scalars['Int'];
   household_chores_and_child_rearing: Scalars['String'];
   household_chores_and_child_rearing_id: Scalars['Int'];
-  indeal_first_encointer: Scalars['String'];
-  indeal_first_encointer_id: Scalars['Int'];
   intentions_towards_marriage: Scalars['String'];
   intentions_towards_marriage_id: Scalars['Int'];
   interests: Scalars['String'];
@@ -274,12 +303,15 @@ export type ResponseUserProfiles = {
   looking_for_id: Scalars['Int'];
   marital_history: Scalars['String'];
   marital_history_id: Scalars['Int'];
+  meeting_preference: Scalars['String'];
+  meeting_preference_id: Scalars['Int'];
   occupation: Scalars['String'];
   occupation_id: Scalars['Int'];
+  personality_type: Scalars['String'];
+  personality_type_id: Scalars['Int'];
   presence_of_children: Scalars['String'];
   presence_of_children_id: Scalars['Int'];
-  presonality_type: Scalars['String'];
-  presonality_type_id: Scalars['Int'];
+  purpose?: Maybe<Scalars['String']>;
   residence_country: Scalars['String'];
   residence_country_id: Scalars['Int'];
   residence_state: Scalars['String'];
@@ -310,15 +342,47 @@ export type ResponseUsers = {
 };
 
 export type UpdateAccounts = {
-  email: Scalars['String'];
-  id: Scalars['Int'];
-  password: Scalars['String'];
-  phone_number: Scalars['String'];
+  current_password?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  new_password?: InputMaybe<Scalars['String']>;
+  phone_number?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserProfiles = {
-  body_type_id: Scalars['Int'];
+  annual_income_id?: InputMaybe<Scalars['Int']>;
+  blood_type_id?: InputMaybe<Scalars['Int']>;
+  body_type_id?: InputMaybe<Scalars['Int']>;
+  dating_expenses_id?: InputMaybe<Scalars['Int']>;
+  days_off_id?: InputMaybe<Scalars['Int']>;
+  desire_for_children_id?: InputMaybe<Scalars['Int']>;
+  drinking_id?: InputMaybe<Scalars['Int']>;
+  education_id?: InputMaybe<Scalars['Int']>;
+  height?: InputMaybe<Scalars['Int']>;
+  hobbies_id?: InputMaybe<Scalars['Int']>;
+  hometown_country_id?: InputMaybe<Scalars['Int']>;
+  hometown_state_id?: InputMaybe<Scalars['Int']>;
+  household_chores_and_child_rearing_id?: InputMaybe<Scalars['Int']>;
   id: Scalars['ID'];
+  intentions_towards_marriage_id?: InputMaybe<Scalars['Int']>;
+  interests_id?: InputMaybe<Scalars['Int']>;
+  introduction?: InputMaybe<Scalars['String']>;
+  job_title?: InputMaybe<Scalars['String']>;
+  language_id?: InputMaybe<Scalars['Int']>;
+  looking_for_id?: InputMaybe<Scalars['Int']>;
+  marital_history_id?: InputMaybe<Scalars['Int']>;
+  meeting_preference_id?: InputMaybe<Scalars['Int']>;
+  occupation_id?: InputMaybe<Scalars['Int']>;
+  personality_type_id?: InputMaybe<Scalars['Int']>;
+  presence_of_children_id?: InputMaybe<Scalars['Int']>;
+  residence_country_id?: InputMaybe<Scalars['Int']>;
+  residence_state_id?: InputMaybe<Scalars['Int']>;
+  roommates_id?: InputMaybe<Scalars['Int']>;
+  school_name?: InputMaybe<Scalars['String']>;
+  siblings_id?: InputMaybe<Scalars['Int']>;
+  smoking_id?: InputMaybe<Scalars['Int']>;
+  sociability_id?: InputMaybe<Scalars['Int']>;
+  user_id?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateUserSearchFilters = {
@@ -338,10 +402,12 @@ export type UpdateUserSearchFilters = {
 };
 
 export type UpdateUsers = {
-  age: Scalars['Int'];
-  display_name: Scalars['String'];
+  age?: InputMaybe<Scalars['Int']>;
+  display_name?: InputMaybe<Scalars['String']>;
   gender: Scalars['String'];
-  location: Scalars['String'];
+  id?: InputMaybe<Scalars['Int']>;
+  location?: InputMaybe<Scalars['String']>;
+  screen_name?: InputMaybe<Scalars['String']>;
 };
 
 export type UserConnection = {
@@ -447,7 +513,7 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'Users', display_name: string, screen_name: string, gender: string, location: string } };
 
 export type CreateVerifyEmailMutationVariables = Exact<{
-  verify_email?: InputMaybe<NewVerifyEmails>;
+  email: Scalars['String'];
 }>;
 
 
@@ -469,7 +535,8 @@ export type CreateUserSearchFiltersMutationVariables = Exact<{
 export type CreateUserSearchFiltersMutation = { __typename?: 'Mutation', createUserSearchFilters: { __typename?: 'UserSearchFilters', gender: string, location?: string | null } };
 
 export type LoginMutationVariables = Exact<{
-  login: NewLogin;
+  email: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
 
@@ -508,7 +575,7 @@ export type UpdateUserProfileMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'UserProfiles', body_type_id: number } };
+export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'UserProfiles', body_type_id: number, blood_type_id: number, occupation_id: number, education_id: number, annual_income_id: number, smoking_id: number, drinking_id: number } };
 
 export type AccountsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -520,7 +587,7 @@ export type AccountsQuery = { __typename?: 'Query', account: { __typename?: 'Acc
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'ResponseUsers', id: string, display_name: string, gender: string, age: number, location: string, user_profile: { __typename?: 'ResponseUserProfiles', height_id: number, body_type_id: number, blood_type_id: number, residence_state_id: number, hometown_state: string, occupation_id: number, education_id: number, annual_income_id: number, smoking_id: number, drinking_id: number } } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'ResponseUsers', id: string, display_name: string, gender: string, age: number, location: string, user_profile: { __typename?: 'ResponseUserProfiles', height: number, body_type_id: number, blood_type_id: number, residence_state_id: number, hometown_state: string, occupation_id: number, education_id: number, annual_income_id: number, smoking_id: number, drinking_id: number } } };
 
 export type UsersQueryVariables = Exact<{
   first: Scalars['Int'];
@@ -535,7 +602,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUsers', id: string, uuid: string, display_name: string, age: number, is_liked?: boolean | null, user_profile: { __typename?: 'ResponseUserProfiles', user_id: number, height_id: number, height: string, body_type: string, blood_type: string, residence_country: string, residence_state: string, hometown_country: string, hometown_state: string, occupation: string, education: string, annual_income: string, smoking: string, drinking: string } } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUsers', id: string, uuid: string, display_name: string, age: number, is_liked?: boolean | null, user_profile: { __typename?: 'ResponseUserProfiles', introduction?: string | null, height: number, body_type: string, blood_type: string, residence_state: string, hometown_state: string, occupation: string, education: string, annual_income: string, smoking: string, drinking: string, siblings: string, language?: string | null, interests: string, looking_for: string, school_name: string, job_title: string, marital_history: string, presence_of_children: string, intentions_towards_marriage: string, desire_for_children: string, household_chores_and_child_rearing: string, meeting_preference: string, dating_expenses: string, sociability: string, roommates: string, days_off: string } } };
 
 export type UserSearchFiltersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -622,8 +689,8 @@ export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutati
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const CreateVerifyEmailDocument = gql`
-    mutation CreateVerifyEmail($verify_email: NewVerifyEmails) {
-  createVerifyEmail(input: $verify_email) {
+    mutation CreateVerifyEmail($email: String!) {
+  createVerifyEmail(email: $email) {
     token
     email
     pin_code
@@ -645,7 +712,7 @@ export type CreateVerifyEmailMutationFn = Apollo.MutationFunction<CreateVerifyEm
  * @example
  * const [createVerifyEmailMutation, { data, loading, error }] = useCreateVerifyEmailMutation({
  *   variables: {
- *      verify_email: // value for 'verify_email'
+ *      email: // value for 'email'
  *   },
  * });
  */
@@ -729,8 +796,8 @@ export type CreateUserSearchFiltersMutationHookResult = ReturnType<typeof useCre
 export type CreateUserSearchFiltersMutationResult = Apollo.MutationResult<CreateUserSearchFiltersMutation>;
 export type CreateUserSearchFiltersMutationOptions = Apollo.BaseMutationOptions<CreateUserSearchFiltersMutation, CreateUserSearchFiltersMutationVariables>;
 export const LoginDocument = gql`
-    mutation Login($login: NewLogin!) {
-  login(input: $login) {
+    mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
     id
   }
 }
@@ -750,7 +817,8 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * @example
  * const [loginMutation, { data, loading, error }] = useLoginMutation({
  *   variables: {
- *      login: // value for 'login'
+ *      email: // value for 'email'
+ *      password: // value for 'password'
  *   },
  * });
  */
@@ -904,6 +972,12 @@ export const UpdateUserProfileDocument = gql`
     mutation UpdateUserProfile($profile: UpdateUserProfiles) {
   updateUserProfile(input: $profile) {
     body_type_id
+    blood_type_id
+    occupation_id
+    education_id
+    annual_income_id
+    smoking_id
+    drinking_id
   }
 }
     `;
@@ -979,7 +1053,7 @@ export const MeDocument = gql`
     age
     location
     user_profile {
-      height_id
+      height
       body_type_id
       blood_type_id
       residence_state_id
@@ -1085,20 +1159,33 @@ export const UserDocument = gql`
     age
     is_liked
     user_profile {
-      user_id
-      height_id
+      introduction
       height
       body_type
       blood_type
-      residence_country
       residence_state
-      hometown_country
       hometown_state
       occupation
       education
       annual_income
       smoking
       drinking
+      siblings
+      language
+      interests
+      looking_for
+      school_name
+      job_title
+      marital_history
+      presence_of_children
+      intentions_towards_marriage
+      desire_for_children
+      household_chores_and_child_rearing
+      meeting_preference
+      dating_expenses
+      sociability
+      roommates
+      days_off
     }
   }
 }

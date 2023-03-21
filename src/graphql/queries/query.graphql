@@ -14,7 +14,7 @@ query me {
 		age
 		location
 		user_profile {
-			height_id
+			height
 			body_type_id
 			blood_type_id
 			residence_state_id
@@ -62,21 +62,37 @@ query user($id: ID!) {
 		age
 		is_liked
 		user_profile {
-			user_id
-			# introduction
-			height_id
+			introduction
 			height
 			body_type
 			blood_type
-			residence_country
 			residence_state
-			hometown_country
 			hometown_state
 			occupation
 			education
 			annual_income
 			smoking
 			drinking
+
+			siblings
+			language
+			interests
+			looking_for
+
+			school_name
+			job_title
+
+			marital_history
+			presence_of_children
+			intentions_towards_marriage
+			desire_for_children
+			household_chores_and_child_rearing
+			meeting_preference
+			dating_expenses
+
+			sociability
+			roommates
+			days_off
 		}
 	}
 }

@@ -15,8 +15,8 @@ mutation CreateUser($user: NewUsers) {
 	}
 }
 
-mutation CreateVerifyEmail($verify_email: NewVerifyEmails) {
-	createVerifyEmail(input: $verify_email) {
+mutation CreateVerifyEmail($email: String!) {
+	createVerifyEmail(email: $email) {
 		token
 		email
 		pin_code
@@ -40,8 +40,8 @@ mutation CreateUserSearchFilters($filter: NewUserSearchFilters) {
 	}
 }
 
-mutation Login($login: NewLogin!) {
-	login(input: $login) {
+mutation Login($email: String!, $password: String!) {
+	login(email: $email, password: $password) {
 		id
 	}
 }
@@ -81,6 +81,13 @@ mutation CreateLike($like: NewLikes) {
 
 mutation UpdateUserProfile($profile: UpdateUserProfiles) {
 	updateUserProfile(input: $profile) {
+		# Basic Profile
 		body_type_id
+		blood_type_id
+		occupation_id
+		education_id
+		annual_income_id
+		smoking_id
+		drinking_id
 	}
 }

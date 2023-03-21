@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { VerifyEmailLayout } from "../../features/verify_email/components/VerifyEmailLayout";
-import { VerifyEmailForm } from "../../features/verify_email/components/VerifyEmailForm";
+import { VerifyEmailLayout } from "../../../features/verify_email/components/VerifyEmailLayout";
+import { VerifyEmailForm } from "../../../features/verify_email/components/VerifyEmailForm";
 
 export const VerifyEmail: NextPage = () => {
 	return (

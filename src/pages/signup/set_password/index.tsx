@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { PasswordLayout } from "../../features/set_password/PasswordLayout";
-import { PasswordForm } from "../../features/set_password/PasswordForm";
+import { PasswordLayout } from "../../../features/set_password/PasswordLayout";
+import { PasswordForm } from "../../../features/set_password/PasswordForm";
 
 const PasswordPage: NextPage = () => {
 	return (

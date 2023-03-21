@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { UsersQuery } from "../../../graphql/graphql"
 import { useEffect, useRef, useState } from "react"
+import { PageHeader } from "../../../components/ui/PageHeader"
 
 interface Props {
 	// children: ReactNode
@@ -27,18 +28,20 @@ export const UserLists: React.FC<Props> = ({ data }) => {
 	})
 
 	return (
-		<div className="w-full" ref={element}>
+		<div className="w-full px-8" ref={element}>
 			<div className="flex flex-col">
-				<div className="flex justify-between">
-					<h2 className="text-xl font-bold">
-						ユーザー一覧
-					</h2>
-					<div className="self-center">
-						<Link href='/user_search_filters' className="text-slate-500 hover:text-blue-500">
-							検索条件を設定
-						</Link>
+				<PageHeader>
+					<div className="flex justify-between">
+						<h2 className="text-xl font-bold">
+							ユーザー一覧
+						</h2>
+						<div className="self-center">
+							<Link href='/user_search_filters' className="text-slate-500 hover:text-blue-500">
+								検索条件を設定
+							</Link>
+						</div>
 					</div>
-				</div>
+				</PageHeader>
 
 				<ul className="grid grid-cols-5 gap-3 my-6">
 					{ data?.users.edges.map((users) => (
@@ -46,7 +49,7 @@ export const UserLists: React.FC<Props> = ({ data }) => {
 							<Link href={ `/users/${ users.node.id }` }>
 								<div className="rounded">
 									<div>
-										<img className="rounded" src="/assets/young-gals.jpg" alt="sample image" />
+										<img className="rounded" src="/assets/sample-image.png" alt="sample image" />
 									</div>
 									<div className="py-2">
 										<div className="font-semibold text-lg text-black">

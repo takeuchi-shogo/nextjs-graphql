@@ -73,6 +73,8 @@ export const MyBasicProfileForm: React.FC<Props> = ({
 				profile: {
 					id: "5",
 					body_type_id: bodyTypeId,
+					blood_type_id: bloodTypeId,
+					
 				}
 			}
 		})

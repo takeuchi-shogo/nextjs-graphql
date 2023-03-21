@@ -22,7 +22,7 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 	if (error) return <p className='font-bold text-3xl'>error</p>
 
 	return (
-		<div className="flex mt-14">
+		<div className="flex mt-14 px-8 font-yu">
 			<div className="space-y-6">
 				<div className="">
 					<img className="object-cover w-80 h-80 rounded" src="/assets/young-gals.jpg" alt="sample" />
@@ -48,7 +48,9 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 				</div>
 			</div>
 			<UserProfileContainer>
-				<UserIntroduction />
+				<UserIntroduction
+					introduction={ data?.user.user_profile.introduction }
+				/>
 				<UserBasicProfile
 					height={ data?.user.user_profile.height }
 					body_type={ data?.user.user_profile.body_type }
@@ -61,9 +63,24 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 					smoking={ data?.user.user_profile.smoking }
 					drinking={ data?.user.user_profile.drinking }
 				/>
-				{/* <UserEducationAndCareer />
-				<UserAttitudeTowardsLoveAndMarriage />
-				<UserPersonalityAndLifestyleAndHobbies /> */}
+				<UserEducationAndCareer
+					school_name={ data?.user.user_profile.school_name }
+					job_title={ data?.user.user_profile.job_title }
+				/>
+				<UserAttitudeTowardsLoveAndMarriage
+					marital_history={ data?.user.user_profile.marital_history }
+					presence_of_children={ data?.user.user_profile.presence_of_children }
+					intentions_towards_marriage={ data?.user.user_profile.intentions_towards_marriage }
+					desire_for_children={ data?.user.user_profile.desire_for_children }
+					household_chores_and_child_rearing={ data?.user.user_profile.household_chores_and_child_rearing }
+					meeting_preference={ data?.user.user_profile.meeting_preference }
+					dating_exprnses={ data?.user.user_profile.dating_expenses }
+				/>
+				<UserPersonalityAndLifestyleAndHobbies
+					sociability={ data?.user.user_profile.sociability }
+					roommates={ data?.user.user_profile.roommates }
+					days_off={ data?.user.user_profile.days_off }
+				/>
 			</UserProfileContainer>
 		</div>
 	)

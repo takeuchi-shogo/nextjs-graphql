@@ -10,7 +10,7 @@ export const SideNavigationContainer: React.FC<Props> = () => {
 			<div className="sticky inset-y-0 w-60 h-screen border-gray-100 border-r">
 				{/* Side Navigation */ }
 				<div className="flex flex-col space-y-3 px-4">
-					<div className="h-10 flex align-middle">
+					<div className="h-10 my-4 flex align-middle">
 						<div className="flex">
 							<div className="self-center text-2xl font-extrabold text-pink-300">
 								LOGO

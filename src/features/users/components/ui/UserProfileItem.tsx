@@ -1,12 +1,12 @@
 interface Props {
 	label: string
-	value: string | undefined
+	value: string | number | null | undefined
 }
 
 export const UserProfileItem: React.FC<Props> = ({ label, value }) => {
 	return (
 		<div className="flex text-sm">
-			<div className="w-28 font-light text-slate-600">
+			<div className="w-40 font-light text-slate-600">
 				{ label }
 			</div>
 			<div className="text-neutral-800 font-semibold">

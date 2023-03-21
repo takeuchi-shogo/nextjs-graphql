@@ -38,11 +38,9 @@ export const LoginForm:React.FC = () => {
 		try {
 			login({
 				variables: {
-					login: {
-						email: email,
-						password: password,
-					},
-				}
+					email: email,
+					password: password,
+				},
 			})
 		} catch {
 			console.log(error)

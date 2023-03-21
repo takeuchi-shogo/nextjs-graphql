@@ -6,7 +6,7 @@ interface Props {
 
 export const UserProfileContainer: React.FC<Props> = ({ children }) => {
 	return (
-		<div className="space-y-5">
+		<div className="space-y-6">
 			{ children }
 		</div>
 	)

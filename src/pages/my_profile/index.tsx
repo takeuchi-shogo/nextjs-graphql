@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import Head from "next/head"
 import { MyProfileLayout } from "../../features/my_profile/MyProfleLayout"
 import { MyAccountEditForm } from "../../features/my_profile/MyAccountEditForm"
-import { MyProfileEditForm } from "../../features/my_profile/MyProfileEditForm"
+import { MyInfomationEditForm } from "../../features/my_profile/MyInfomationEditForm"
 import { SideNavigationContainer } from "../../components/layout/SideNavigationContainer"
 import { MainLayout } from "../../components/layout/MainLayout"
 import { PrivateLayoutGuard } from "../../components/layout/PrivateLayoutGuard"
@@ -29,7 +29,7 @@ const MyProfile: NextPage = () => {
 							{ loading && (<p>Loading ....</p>)}
 							{ data && (
 								<>
-									<MyProfileEditForm me={ data.me } />
+									<MyInfomationEditForm me={ data.me } />
 									<MyBasicProfileForm
 										body_type_id={ data.me.user_profile.body_type_id }
 										blood_type_id={ data.me.user_profile.blood_type_id }

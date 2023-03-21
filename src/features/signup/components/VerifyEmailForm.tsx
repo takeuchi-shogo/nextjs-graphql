@@ -17,9 +17,7 @@ export const VerifyEmailForm: React.FC<Props> = ({ handleVerifyEmail }) => {
 		try {
 			createVerifyEmailMutation({
 				variables: {
-					verify_email: {
-						email: email,
-					}
+					email: email,
 				}
 			})
 			handleVerifyEmail(email)

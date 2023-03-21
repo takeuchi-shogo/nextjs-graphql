@@ -5,6 +5,8 @@ import { useUpdateUserSearchFilters } from "../../../hooks/useUserSearchFilters"
 import { useRouter } from "next/router"
 import { FloatingSelect } from "../../../components/ui/Form/FloatingSelect"
 import { basicProfile } from "../../../constants/user_profile"
+import { PageHeader } from "../../../components/ui/PageHeader"
+import Link from "next/link"
 
 interface Props {
 	userSearchFilter: any
@@ -18,7 +20,7 @@ export const UserSearchFilterForm: React.FC<Props> = ({
 	const {update, data, loading, error } = useUpdateUserSearchFilters()
 
 	const [gender, setGender] = useState('')
-	const [location, setLocation] = useState<string| undefined>(undefined)
+	const [location, setLocation] = useState<string| undefined>('')
 	const [purpose, setPurpose] = useState(0)
 	const [hasIntroduction, setHasIntroduction] = useState(false)
 	const [bodyTypeId, setBodyTypeId] = useState(0)
@@ -89,17 +91,24 @@ export const UserSearchFilterForm: React.FC<Props> = ({
 					}
 				}
 			})
+			if (data && !error) {
+				router.push('/users')
+			}
 		} catch {
 
-		}
-		if (data && !error) {
-			router.push('/users')
 		}
 	}
 
 
 	return (
-		<form className="w-full">
+		<form className="w-full px-6">
+				<PageHeader>
+					<div className="flex justify-between">
+						<h2 className="text-xl font-bold">
+							ユーザー検索条件の設定
+						</h2>
+					</div>
+				</PageHeader>
 			<div className="w-full">
 				<div className="pt-4">
 					<div className="relative z-0 w-full mb-6 group">

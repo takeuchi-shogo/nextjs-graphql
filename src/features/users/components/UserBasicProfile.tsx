@@ -3,7 +3,7 @@ import { UserProfileItemHeader } from "./ui/UserProfileItemHeader"
 import { UserProfileItemLayout } from "./ui/UserProfileItemLayout"
 
 interface Props {
-	height: string | undefined
+	height: number | undefined
 	body_type: string | undefined
 	blood_type: string | undefined
 	residence_state: string | undefined
@@ -35,7 +35,7 @@ export const UserBasicProfile: React.FC<Props> = ({
 			<div className="space-y-2">
 				<UserProfileItem
 					label={ '身長' }
-					value={ height }
+					value={ height + 'cm' }
 				/>
 				<UserProfileItem
 					label={ '体型' }
