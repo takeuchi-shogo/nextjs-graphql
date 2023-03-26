@@ -6,6 +6,45 @@ query accounts($id: ID!) {
 	}
 }
 
+query home($first: Int!, $after: String!) {
+	home(first: $first, after: $after) {
+		tweets {
+			id
+			text
+			format_created_at
+			like_cnt
+			comment_cnt
+			user {
+				screen_name
+				display_name
+				age
+			}
+		}
+		metadata {
+			total_tweets_count
+			page_info {
+				has_next_page
+				has_previous_page
+			}
+		}
+	}
+}
+
+query tweet($id: ID!) {
+	tweet(id: $id) {
+		id
+		text
+		format_created_at
+		like_cnt
+		comment_cnt
+		user {
+			screen_name
+			display_name
+			age
+		}
+	}
+}
+
 query me {
 	me {
 		id
@@ -54,8 +93,8 @@ query users($first: Int!, $after: String!) {
 	}
 }
 
-query user($id: ID!) {
-	user(id: $id) {
+query user($screen_name: String!) {
+	user(screen_name: $screen_name) {
 		id
 		uuid
 		display_name

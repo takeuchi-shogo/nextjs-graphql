@@ -9,13 +9,15 @@ import { UserPersonalityAndLifestyleAndHobbies } from "./UserPersonalityAndLifes
 import { Button } from "../../../components/ui/Button"
 
 interface Props {
-	id: string
+	screen_name: string
 }
 
-export const SingleLayout: React.FC<Props> = ({ id }) => {
+export const SingleLayout: React.FC<Props> = ({ screen_name }) => {
 
 	const { data, loading, error } = useUserQuery({
-		variables: { id: id }
+		variables: {
+			screen_name: screen_name,
+		}
 	})
 
 	if (loading) return <p>Now Loading .....</p>
@@ -36,7 +38,7 @@ export const SingleLayout: React.FC<Props> = ({ id }) => {
 					</div>
 				</div>
 				<div className="space-y-4">
-					<UserLikeButton id={ id } is_like={ data?.user.is_liked } />
+					<UserLikeButton id={ data?.user.id as string } is_like={ data?.user.is_liked } />
 					<div>
 						<Button
 							variant="secondary"

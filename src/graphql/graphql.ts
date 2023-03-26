@@ -33,6 +33,12 @@ export type Blocks = {
   id: Scalars['ID'];
 };
 
+export type HomeTimeLine = {
+  __typename?: 'HomeTimeLine';
+  metadata: Metadata;
+  tweets?: Maybe<Array<Tweets>>;
+};
+
 export type Likes = {
   __typename?: 'Likes';
   created_at: Scalars['Int'];
@@ -48,6 +54,12 @@ export type Matches = {
   male_user_id: Scalars['Int'];
 };
 
+export type Metadata = {
+  __typename?: 'Metadata';
+  page_info: PageInfo;
+  total_tweets_count: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createAccount: Accounts;
@@ -56,6 +68,7 @@ export type Mutation = {
   createLike: Likes;
   createReport: Reports;
   createResetPassword: ResetPasswords;
+  createTweet: Tweets;
   createUser: Users;
   createUserSearchFilters: UserSearchFilters;
   createVerifyEmail: VerifyEmails;
@@ -96,6 +109,11 @@ export type MutationCreateReportArgs = {
 
 export type MutationCreateResetPasswordArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationCreateTweetArgs = {
+  text: Scalars['String'];
 };
 
 
@@ -201,10 +219,13 @@ export type Query = {
   account: Accounts;
   block: Blocks;
   blocks: Array<Blocks>;
+  home: HomeTimeLine;
   me: ResponseUsers;
   report: Reports;
   reports: Array<Reports>;
   reset_password: ResetPasswords;
+  tweet: Tweets;
+  tweets: TweetConnection;
   user: ResponseUsers;
   user_search_filters: UserSearchFilters;
   users: UserConnection;
@@ -222,6 +243,12 @@ export type QueryBlockArgs = {
 };
 
 
+export type QueryHomeArgs = {
+  after: Scalars['String'];
+  first: Scalars['Int'];
+};
+
+
 export type QueryReportArgs = {
   id: Scalars['ID'];
 };
@@ -232,8 +259,18 @@ export type QueryReset_PasswordArgs = {
 };
 
 
-export type QueryUserArgs = {
+export type QueryTweetArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryTweetsArgs = {
+  user_id: Scalars['Int'];
+};
+
+
+export type QueryUserArgs = {
+  screen_name: Scalars['String'];
 };
 
 
@@ -296,7 +333,7 @@ export type ResponseUserProfiles = {
   interests: Scalars['String'];
   interests_id: Scalars['Int'];
   introduction?: Maybe<Scalars['String']>;
-  job_title: Scalars['String'];
+  job_title?: Maybe<Scalars['String']>;
   language?: Maybe<Scalars['String']>;
   language_id: Scalars['Int'];
   looking_for: Scalars['String'];
@@ -318,7 +355,7 @@ export type ResponseUserProfiles = {
   residence_state_id: Scalars['Int'];
   roommates: Scalars['String'];
   roommates_id: Scalars['Int'];
-  school_name: Scalars['String'];
+  school_name?: Maybe<Scalars['String']>;
   siblings: Scalars['String'];
   siblings_id: Scalars['Int'];
   smoking: Scalars['String'];
@@ -339,6 +376,29 @@ export type ResponseUsers = {
   screen_name: Scalars['String'];
   user_profile: ResponseUserProfiles;
   uuid: Scalars['String'];
+};
+
+export type TweetConnection = {
+  __typename?: 'TweetConnection';
+  edges?: Maybe<Array<Maybe<TweetsEdge>>>;
+  page_info: PageInfo;
+};
+
+export type Tweets = {
+  __typename?: 'Tweets';
+  comment_cnt: Scalars['Int'];
+  format_created_at: Scalars['String'];
+  id: Scalars['ID'];
+  is_liked: Scalars['Boolean'];
+  like_cnt: Scalars['Int'];
+  text: Scalars['String'];
+  user: Users;
+};
+
+export type TweetsEdge = {
+  __typename?: 'TweetsEdge';
+  cursor: Scalars['String'];
+  node: Tweets;
 };
 
 export type UpdateAccounts = {
@@ -505,6 +565,13 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'Accounts', phone_number: string, email: string, password: string } };
 
+export type CreateTweetMutationVariables = Exact<{
+  text: Scalars['String'];
+}>;
+
+
+export type CreateTweetMutation = { __typename?: 'Mutation', createTweet: { __typename?: 'Tweets', id: string, text: string, user: { __typename?: 'Users', screen_name: string, display_name: string, age: number } } };
+
 export type CreateUserMutationVariables = Exact<{
   user?: InputMaybe<NewUsers>;
 }>;
@@ -584,6 +651,21 @@ export type AccountsQueryVariables = Exact<{
 
 export type AccountsQuery = { __typename?: 'Query', account: { __typename?: 'Accounts', phone_number: string, email: string, password: string } };
 
+export type HomeQueryVariables = Exact<{
+  first: Scalars['Int'];
+  after: Scalars['String'];
+}>;
+
+
+export type HomeQuery = { __typename?: 'Query', home: { __typename?: 'HomeTimeLine', tweets?: Array<{ __typename?: 'Tweets', id: string, text: string, format_created_at: string, like_cnt: number, comment_cnt: number, user: { __typename?: 'Users', screen_name: string, display_name: string, age: number } }> | null, metadata: { __typename?: 'Metadata', total_tweets_count: number, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean } } } };
+
+export type TweetQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TweetQuery = { __typename?: 'Query', tweet: { __typename?: 'Tweets', id: string, text: string, format_created_at: string, like_cnt: number, comment_cnt: number, user: { __typename?: 'Users', screen_name: string, display_name: string, age: number } } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -598,11 +680,11 @@ export type UsersQueryVariables = Exact<{
 export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserConnection', edges: Array<{ __typename?: 'UserEdge', cursor: string, node: { __typename?: 'ResponseUsers', id: string, display_name: string, screen_name: string, age: number, gender: string, user_profile: { __typename?: 'ResponseUserProfiles', introduction?: string | null, residence_country: string, residence_state: string } } }>, page_info: { __typename?: 'PageInfo', has_next_page: boolean, has_previous_page: boolean, start_cursor?: string | null, end_cursor?: string | null } } };
 
 export type UserQueryVariables = Exact<{
-  id: Scalars['ID'];
+  screen_name: Scalars['String'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUsers', id: string, uuid: string, display_name: string, age: number, is_liked?: boolean | null, user_profile: { __typename?: 'ResponseUserProfiles', introduction?: string | null, height: number, body_type: string, blood_type: string, residence_state: string, hometown_state: string, occupation: string, education: string, annual_income: string, smoking: string, drinking: string, siblings: string, language?: string | null, interests: string, looking_for: string, school_name: string, job_title: string, marital_history: string, presence_of_children: string, intentions_towards_marriage: string, desire_for_children: string, household_chores_and_child_rearing: string, meeting_preference: string, dating_expenses: string, sociability: string, roommates: string, days_off: string } } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'ResponseUsers', id: string, uuid: string, display_name: string, age: number, is_liked?: boolean | null, user_profile: { __typename?: 'ResponseUserProfiles', introduction?: string | null, height: number, body_type: string, blood_type: string, residence_state: string, hometown_state: string, occupation: string, education: string, annual_income: string, smoking: string, drinking: string, siblings: string, language?: string | null, interests: string, looking_for: string, school_name?: string | null, job_title?: string | null, marital_history: string, presence_of_children: string, intentions_towards_marriage: string, desire_for_children: string, household_chores_and_child_rearing: string, meeting_preference: string, dating_expenses: string, sociability: string, roommates: string, days_off: string } } };
 
 export type UserSearchFiltersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -652,6 +734,45 @@ export function useCreateAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
 export type CreateAccountMutationResult = Apollo.MutationResult<CreateAccountMutation>;
 export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;
+export const CreateTweetDocument = gql`
+    mutation CreateTweet($text: String!) {
+  createTweet(text: $text) {
+    id
+    text
+    user {
+      screen_name
+      display_name
+      age
+    }
+  }
+}
+    `;
+export type CreateTweetMutationFn = Apollo.MutationFunction<CreateTweetMutation, CreateTweetMutationVariables>;
+
+/**
+ * __useCreateTweetMutation__
+ *
+ * To run a mutation, you first call `useCreateTweetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTweetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTweetMutation, { data, loading, error }] = useCreateTweetMutation({
+ *   variables: {
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useCreateTweetMutation(baseOptions?: Apollo.MutationHookOptions<CreateTweetMutation, CreateTweetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTweetMutation, CreateTweetMutationVariables>(CreateTweetDocument, options);
+      }
+export type CreateTweetMutationHookResult = ReturnType<typeof useCreateTweetMutation>;
+export type CreateTweetMutationResult = Apollo.MutationResult<CreateTweetMutation>;
+export type CreateTweetMutationOptions = Apollo.BaseMutationOptions<CreateTweetMutation, CreateTweetMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($user: NewUsers) {
   createUser(input: $user) {
@@ -1044,6 +1165,104 @@ export function useAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<A
 export type AccountsQueryHookResult = ReturnType<typeof useAccountsQuery>;
 export type AccountsLazyQueryHookResult = ReturnType<typeof useAccountsLazyQuery>;
 export type AccountsQueryResult = Apollo.QueryResult<AccountsQuery, AccountsQueryVariables>;
+export const HomeDocument = gql`
+    query home($first: Int!, $after: String!) {
+  home(first: $first, after: $after) {
+    tweets {
+      id
+      text
+      format_created_at
+      like_cnt
+      comment_cnt
+      user {
+        screen_name
+        display_name
+        age
+      }
+    }
+    metadata {
+      total_tweets_count
+      page_info {
+        has_next_page
+        has_previous_page
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useHomeQuery__
+ *
+ * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useHomeQuery(baseOptions: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+      }
+export function useHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+        }
+export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>;
+export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>;
+export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>;
+export const TweetDocument = gql`
+    query tweet($id: ID!) {
+  tweet(id: $id) {
+    id
+    text
+    format_created_at
+    like_cnt
+    comment_cnt
+    user {
+      screen_name
+      display_name
+      age
+    }
+  }
+}
+    `;
+
+/**
+ * __useTweetQuery__
+ *
+ * To run a query within a React component, call `useTweetQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTweetQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTweetQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTweetQuery(baseOptions: Apollo.QueryHookOptions<TweetQuery, TweetQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TweetQuery, TweetQueryVariables>(TweetDocument, options);
+      }
+export function useTweetLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TweetQuery, TweetQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TweetQuery, TweetQueryVariables>(TweetDocument, options);
+        }
+export type TweetQueryHookResult = ReturnType<typeof useTweetQuery>;
+export type TweetLazyQueryHookResult = ReturnType<typeof useTweetLazyQuery>;
+export type TweetQueryResult = Apollo.QueryResult<TweetQuery, TweetQueryVariables>;
 export const MeDocument = gql`
     query me {
   me {
@@ -1151,8 +1370,8 @@ export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
 export const UserDocument = gql`
-    query user($id: ID!) {
-  user(id: $id) {
+    query user($screen_name: String!) {
+  user(screen_name: $screen_name) {
     id
     uuid
     display_name
@@ -1203,7 +1422,7 @@ export const UserDocument = gql`
  * @example
  * const { data, loading, error } = useUserQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      screen_name: // value for 'screen_name'
  *   },
  * });
  */

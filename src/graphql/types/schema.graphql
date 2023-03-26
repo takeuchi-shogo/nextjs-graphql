@@ -1,6 +1,10 @@
 type Query {
   account: Accounts!
   me: Users!
+  home: HomeTimeLine!
+
+  tweets(user_id: Int!): TweetConnection!
+  tweet(id: ID!): Tweets!
   # users: [Users]
   users(first: Int!, after: String!): UserConnection!
   user(id: ID!): Users!
@@ -15,6 +19,11 @@ type Accounts {
   password: String!
   login_status: Boolean!
   access_level: String!
+}
+
+type HomeTimeLine {
+  tweets: [Tweets!]
+  metadata: Metadata!
 }
 
 type Likes {

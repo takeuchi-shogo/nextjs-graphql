@@ -6,6 +6,18 @@ mutation CreateAccount($account: NewAccounts) {
 	}
 }
 
+mutation CreateTweet($text: String!) {
+	createTweet(text: $text) {
+		id
+		text
+		user {
+			screen_name
+			display_name
+			age
+		}
+	}
+}
+
 mutation CreateUser($user: NewUsers) {
 	createUser(input: $user) {
 		display_name

@@ -46,7 +46,7 @@ export const UserLists: React.FC<Props> = ({ data }) => {
 				<ul className="grid grid-cols-5 gap-3 my-6">
 					{ data?.users.edges.map((users) => (
 						<li className="font-semibold text-sm" key={ users.node.id }>
-							<Link href={ `/users/${ users.node.id }` }>
+							<Link href={ `/${ users.node.screen_name }` }>
 								<div className="rounded">
 									<div>
 										<img className="rounded" src="/assets/sample-image.png" alt="sample image" />

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { LoginLayout } from "../../features/signin/components/SigninLayout";
 import { LoginForm } from "../../features/signin/components/SigninForm";
 
-const LoginPage: NextPage = () => {
+const LoginPage: NextPage = ({}) => {
 	return (
 		<div>
 			<Head>
@@ -18,6 +18,12 @@ const LoginPage: NextPage = () => {
 			</main>
 		</div>
 	)
+}
+
+export async function getStaticProps() {
+	return {
+		props: {},
+	}
 }
 
 export default LoginPage
